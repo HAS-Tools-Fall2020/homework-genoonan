@@ -2,11 +2,7 @@
 ## *Homework 3*
 ### 9/14/20
 ---
-**Week 3 Forecast Rationale**
----
-For Week 3 forecast, I just updated the one week and two-week forecast a bit based on what the current data are showing.  And mostly just spent most of my effort on trying to figure out the Python coding part.  I didn't see any reason to update the seasonal forecast at this point(?), so i left all the same as forecasted last week, or maybe I'm just not understanding how that is supposed to work.  I recall you saying something about not using data from the actual gauge report for dates passed to fill in weeks that have past in our seasonal list.  
----
-**Week 3 Questions**
+###Week 3 Questions
 ---
 **1) Describe the variables flow, year, month, and day.   What type of objects are they, what are they composed of, and how long are they?**
 
@@ -24,4 +20,7 @@ For Week 3 forecast, I just updated the one week and two-week forecast a bit bas
 
 **Answer:** The mean flow for the beginning of September (day<16) is 178.8.   The mean flow for the end of September (day>=16) is 169.8.  Therefore, the daily flow generally reduces in the second half of September.  Note: I also attempted to produce some plots but had no success in isolating September data or by day - though i did play around for a while trying to figure out. I left this in the code in case you have any suggestions.
 
+**Week 3 Forecast Rationale**
+---
+For Week 3 forecast, I just updated the one week and two-week forecast a bit based on what the current data are showing.  And mostly just spent most of my effort on trying to figure out the Python coding part to answer the homework questions.  I didn't see any reason to update the seasonal forecast I made using excel at this point(?), so I left all the same as forecasted last week, or maybe I'm just not understanding how that is supposed to work or maybe i need to work more on figuring out some code to help me out.  I recall you saying something about not using data from the actual gauge report for dates passed to fill in weeks that have past in our seasonal list so I assume we would just leave those values as is as we go along though??
 **Thanks!**  
