@@ -22,5 +22,6 @@
 
 **Week 3 Forecast Rationale**
 ---
-For Week 3 forecast, I just updated the one week and two-week forecast a bit based on what the current data are showing.  And mostly just spent most of my effort on trying to figure out the Python coding part to answer the homework questions.  I didn't see any reason to update the seasonal forecast I made using excel at this point(?), so I left all the same as forecasted last week, or maybe I'm just not understanding how that is supposed to work or maybe i need to work more on figuring out some code to help me out.  I recall you saying something about not using data from the actual gauge report for dates passed to fill in weeks that have past in our seasonal list so I assume we would just leave those values as is as we go along though??
+For Week 3 forecast, I just updated the one week and two-week forecast a bit based on what the current data are showing.  And mostly just spent most of my effort on trying to figure out the Python coding part to answer the homework questions.  I didn't see any reason to update the seasonal forecast I made using excel at this point(?), so I left all the same as forecasted last week.  Or maybe I'm just not understanding how that is supposed to work.  Or maybe i need to work more on figuring out some code to help me out.  I recall you saying something about not using data from the actual gauge report to fill in weeks that have passed in our seasonal list so I assume we would just leave those values as is as we go along though??
+
 **Thanks!**  
