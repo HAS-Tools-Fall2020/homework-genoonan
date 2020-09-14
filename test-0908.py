@@ -1,0 +1,4 @@
+name = 'jill'
+
+type(name)
+
