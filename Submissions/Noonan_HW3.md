@@ -2,7 +2,7 @@
 ## *Homework 3*
 ### 9/14/20
 ---
-###Week 3 Questions
+### Week 3 Questions
 ---
 **1) Describe the variables flow, year, month, and day.   What type of objects are they, what are they composed of, and how long are they?**
 
