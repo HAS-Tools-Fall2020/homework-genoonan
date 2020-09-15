@@ -1,6 +1,15 @@
 # **Gillian Noonan**
 ## *Homework 3*
 ### 9/14/20
+
+---------
+# Grade
+
+3/3 - Nice work! You are doing it right. Right now we are really writing python codes that are exploratory. Its up to you how you want to use this data exploration to guide your forecasts. And you are correct for the long term forecast you can only use the data up to August 21st. So you could update it if you felt with your analysis you had a better sense of the weekly paternns but you don't have to. 
+
+One note: on question 1 the flow data is a 'float' and the others are integers
+
+
 ---
 ### Week 3 Questions
 ---
