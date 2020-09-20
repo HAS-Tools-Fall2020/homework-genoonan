@@ -24,7 +24,7 @@
     - For histograms:  
       - This one is a bit harder to isolate because it spans two months with same contained days.  I was unsuccessful with this code using an 'or' statement.  So i ended up just looking at early October (days 1-3) for now (for last 10 years) and found the flow ranged up to near 500cfs but primarily was approximately 75-175cfs over last 10 years - still much higher than my prediction.  
       - I then looked at all of October histogram for year 2019.  Range appears to be primarily within approx. 65-115cfs range.  
-      - For quantiles:  
+    - For quantiles:  
         - I looked at quantiles and stats for early October for last 10 years (Oct 1-3).  Quantiles for 0, 0.25, 0.5, and 0.75 were 71.7, 82.175, 93.45, and 132.25.  The min, max, mean and median were 71.7, 433, 120.5, and 93.5.  All much higher than my current forecast!
         - I also looked at quantiles and stats for October of 2019.  Quantiles for 0, 0.25, 0.5, and 0.75 were 72.7, 80.55, 88.7, and 93.95.  The min, max, mean and median were 72.7, 111, 87.7, and 88.7.  Still all much higher than my current forecast but as you said, the word "mega-drought" is being thrown about!  
 
