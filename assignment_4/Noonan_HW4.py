@@ -174,13 +174,11 @@ plt.ylabel('Count')
 
 
 #%%
-# Attempt: Isolate just September for last 2 years only and week of 9/20 - 9/26 and/
-#October for last 2 years for days 1-3
+# Attempt: Isolate week2 forecast period: for last 2 years only 9/27 - 9/30 and 10/1 - 10/3
 # THIS ONE DOESN'T RUN - think it's the 'or' but not sure what else to use
-flow_data_Sep19_26_Oct1_3_2018_2020 = flow_data[(flow_data[:,0]>=2018) & ((flow_data[:,1] ==9) & (flow_data[:,2] >=20) & (flow_data[:,2]<=26 ))or ((flow_data[:,1] ==10) & (flow_data[:,2] >=1) & (flow_data[:,2]<=3))] 
+flow_data_Sep27_30_Oct1_3_2018_2020 = flow_data[(flow_data[:,0]>=2018) & ((flow_data[:,1] ==9) & (flow_data[:,2] >=27) & (flow_data[:,2]<=30 ))or ((flow_data[:,1] ==10) & (flow_data[:,2] >=1) & (flow_data[:,2]<=3))] 
 mybins = np.linspace(0, 160, num=10)
-#mybins = np.linspace(0, np.max(flow_data_Sep19_26), num=20) 
-plt.hist(flow_data_Sep19_26_Oct1_3_2018_2020[:,3], bins = mybins)
+plt.hist(flow_data_Sep27_30_Oct1_3_2018_2020[:,3], bins = mybins)
 plt.title('September-October Streamflow 2018-2020, Week of Sep27-Oct3')
 plt.xlabel('Flow [cfs]')
 plt.ylabel('Count')
