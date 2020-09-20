@@ -176,7 +176,27 @@ plt.ylabel('Count')
 #%%
 # Attempt: Isolate week2 forecast period: for last 2 years only 9/27 - 9/30 and 10/1 - 10/3
 # THIS ONE DOESN'T RUN - think it's the 'or' but not sure what else to use
-flow_data_Sep27_30_Oct1_3_2018_2020 = flow_data[(flow_data[:,0]>=2018) & ((flow_data[:,1] ==9) & (flow_data[:,2] >=27) & (flow_data[:,2]<=30 ))or ((flow_data[:,1] ==10) & (flow_data[:,2] >=1) & (flow_data[:,2]<=3))] 
+
+#LC testing out just  the first  half of your logicfirst
+flow_data_Sep27_30_Oct1_3_2018_2020 = flow_data[(flow_data[:,0]>=2018) & 
+                                                ((flow_data[:,1] ==9) & 
+                                                (flow_data[:,2] >=27) & 
+                                                (flow_data[:,2]<=30 ))]
+
+# LC Now testing out the second part after the or
+flow_data_Sep27_30_Oct1_3_2018_2020 = flow_data[(flow_data[:,0]>=2018) & 
+                                                ((flow_data[:,1] ==10) & 
+                                                (flow_data[:,2] >=1) & 
+                                                (flow_data[:,2]<=3))] 
+
+# Putting them together
+flow_data_Sep27_30_Oct1_3_2018_2020 = flow_data[(flow_data[:,0]>=2018) & 
+                                                ((flow_data[:,1] ==9) & 
+                                                (flow_data[:,2] >=27) & 
+                                                (flow_data[:,2]<=30 )) |
+                                                ((flow_data[:,1] ==10) & 
+                                                (flow_data[:,2] >=1) & 
+                                                (flow_data[:,2]<=3))] 
 mybins = np.linspace(0, 160, num=10)
 plt.hist(flow_data_Sep27_30_Oct1_3_2018_2020[:,3], bins = mybins)
 plt.title('September-October Streamflow 2018-2020, Week of Sep27-Oct3')
