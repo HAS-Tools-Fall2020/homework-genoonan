@@ -101,6 +101,8 @@ print(flow_mean_Sep_begin)
 flow_mean_Sep_begin = np.mean(flow_data[(flow_data[:,1]==9) & (flow_data[:,2]>15), 3])
 print(flow_mean_Sep_begin)
 
+
+#Histogram Plotting
 # %%
 # Make a histogram of data
 # Use the linspace  funciton to create a set  of evenly spaced bins
@@ -113,14 +115,82 @@ plt.title('Streamflow')
 plt.xlabel('Flow [cfs]')
 plt.ylabel('Count')
 
-
 #%%
-# Attempt: Trying to isolate just September
-flow_data_Sep = flow_data[flow_data[:,1] ==9]
-mybins = np.linspace(0, 1000, num=20)
-plt.hist(flow_data_Sep[:,3], bins = mybins)
+# Attempt: Isolate just September
+flow_data_Sep1 = flow_data[flow_data[:,1] ==9]
+mybins = np.linspace(0, 2000, num=20)
+plt.hist(flow_data_Sep1[:,3], bins = mybins)
 plt.title('September Streamflow')
 plt.xlabel('Flow [cfs]')
 plt.ylabel('Count')
 
+#%%
+# Attempt: Isolate just September for last 10 years only
+flow_data_Sep2 = flow_data[(flow_data[:,1] ==9) & (flow_data[:,0]>2010)]
+mybins = np.linspace(0, 1000, num=20)
+plt.hist(flow_data_Sep2[:,3], bins = mybins)
+plt.title('September Streamflow 2010-2020')
+plt.xlabel('Flow [cfs]')
+plt.ylabel('Count')
+
+#%%
+# Attempt: Isolate just September for last 2 years only
+flow_data_Sep3 = flow_data[(flow_data[:,1] ==9) & (flow_data[:,0]>2018)]
+mybins = np.linspace(0, 200, num=20)
+plt.hist(flow_data_Sep3[:,3], bins = mybins)
+plt.title('September Streamflow 2018-2020')
+plt.xlabel('Flow [cfs]')
+plt.ylabel('Count')
+
+#%%
+# Attempt: Isolate just September for last 10 years only and week of 9/20 - 9/26
+flow_data_Sep19_26_2010_2020 = flow_data[(flow_data[:,1] ==9) & (flow_data[:,0]>2010) & (flow_data[:,2] >=20) & (flow_data[:,2]<=26 )]
+mybins = np.linspace(0, 250, num=20)
+#mybins = np.linspace(0, np.max(flow_data_Sep19_26), num=20) 
+plt.hist(flow_data_Sep19_26_2010_2020[:,3], bins = mybins)
+plt.title('September Streamflow 2010-2020, Week of Sep20-26')
+plt.xlabel('Flow [cfs]')
+plt.ylabel('Count')
+
+#%%
+# Attempt: Isolate just September for last 2 years only and week of 9/20 - 9/26
+flow_data_Sep19_26_2018_2020 = flow_data[(flow_data[:,1] ==9) & (flow_data[:,0]>=2018) & (flow_data[:,2] >=20) & (flow_data[:,2]<=26 )]
+mybins = np.linspace(0, 160, num=10)
+#mybins = np.linspace(0, np.max(flow_data_Sep19_26), num=20) 
+plt.hist(flow_data_Sep19_26_2018_2020[:,3], bins = mybins)
+plt.title('September Streamflow 2018-2020, Week of Sep20-26')
+plt.xlabel('Flow [cfs]')
+plt.ylabel('Count')
+
+#%%
+# Attempt: Isolate just September for 2020
+flow_data_Sep2020 = flow_data[(flow_data[:,1] ==9) & (flow_data[:,0]==2020)]
+mybins = np.linspace(0, 80, num=10)
+#mybins = np.linspace(0, np.max(flow_data_Sep19_26), num=20) 
+plt.hist(flow_data_Sep2020[:,3], bins = mybins)
+plt.title('September Streamflow 2020')
+plt.xlabel('Flow [cfs]')
+plt.ylabel('Count')
+
+#Quantiles
+# %%
+# Get the quantiles of flow
+# Two different approaches ---  you should get the same answer
+# just using the flow column
+flow_quants1 = np.quantile(flow_data[:,3], q=[0,0.1, 0.5, 0.9])
+print('Method one flow quantiles:', flow_quants1)
+# Or computing on a colum by column basis 
+flow_quants2 = np.quantile(flow_data, q=[0,0.1, 0.5, 0.9], axis=0)
+# and then just printing out the values for the flow column
+print('Method two flow quantiles:', flow_quants2[:,3])
+
+#%%
+#Quantiles and stats for September 2020
+flow_quants_Sep2020 = np.quantile(flow_data_Sep2020[:,3], q=[0,0.1, 0.5, 0.9])
+print(flow_quants_Sep2020)
+print(np.min(flow_data_Sep2020[:,3]))
+print(np.max(flow_data_Sep2020[:,3]))
+print(np.mean(flow_data_Sep2020[:,3]))
+print(np.median(flow_data_Sep2020[:,3]))
+#flow_mean = np.mean(flow_data[(flow_data[:,3] > 600) & (flow_data[:,1]==7),3])
 # %%

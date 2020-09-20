@@ -8,7 +8,10 @@
 ---
 **1) Include discussion of the quantitative analysis that lead to your prediction. This can include any analysis you complete but must include at least two histograms and some quantitative discussion of flow quantiles that helped you make your decision.**
 
- - Answer: ...
+ - Discussion for my one-week prediction:
+  - To start i wanted to see how flow data for September compared with all data, and how has changed over time:
+     - For histograms, i looked at all flow data (as provided in the starter code), then isolated just September for all data, then looked at September for just the last 10 years, then just September for the last 2 years.  I then looked at just September for last 10 years and last 2 years for specific data in the week of 9/20 - 9/26 (our one-week forecast dates).   For this week the last 2 years, I saw that the majority of the data fell below 160cfs for September.  I then looked at histogram for just September of 2020 and see the range of flows has only been from approximately 35 to 71cfs which is much lower.  
+     - For flow quantiles, to find recent trends, I looked at September quantiles for 0, 0.25, 0.5, and 0.75 for 2020 which were 36.6, 45.2, 52.35, and 57.475.  The min, max, mean and median were 36.6, 65.3, 51.3, and 52.3.     
 
 **2) Describe the variable flow_data:**
 
