@@ -173,24 +173,15 @@ plt.xlabel('Flow [cfs]')
 plt.ylabel('Count')
 
 #Quantiles
-# %%
-# Get the quantiles of flow
-# Two different approaches ---  you should get the same answer
-# just using the flow column
-flow_quants1 = np.quantile(flow_data[:,3], q=[0,0.1, 0.5, 0.9])
-print('Method one flow quantiles:', flow_quants1)
-# Or computing on a colum by column basis 
-flow_quants2 = np.quantile(flow_data, q=[0,0.1, 0.5, 0.9], axis=0)
-# and then just printing out the values for the flow column
-print('Method two flow quantiles:', flow_quants2[:,3])
-
 #%%
 #Quantiles and stats for September 2020
-flow_quants_Sep2020 = np.quantile(flow_data_Sep2020[:,3], q=[0,0.1, 0.5, 0.9])
+flow_quants_Sep2020 = np.quantile(flow_data_Sep2020[:,3], q=[0,0.25, 0.5, 0.75])
 print(flow_quants_Sep2020)
 print(np.min(flow_data_Sep2020[:,3]))
 print(np.max(flow_data_Sep2020[:,3]))
 print(np.mean(flow_data_Sep2020[:,3]))
 print(np.median(flow_data_Sep2020[:,3]))
-#flow_mean = np.mean(flow_data[(flow_data[:,3] > 600) & (flow_data[:,1]==7),3])
+
+
+
 # %%
