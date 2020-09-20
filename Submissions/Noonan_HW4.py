@@ -1,4 +1,4 @@
-# Starter code for Homework 4
+#Gillian Noonan - Homework 4
 
 # %%
 # Import the modules we will use
@@ -101,8 +101,10 @@ print(flow_mean_Sep_begin)
 flow_mean_Sep_begin = np.mean(flow_data[(flow_data[:,1]==9) & (flow_data[:,2]>15), 3])
 print(flow_mean_Sep_begin)
 
+
+#Histogram Plotting
 # %%
-# Make a histogram of data
+# Make a histogram of data (All flow data)
 # Use the linspace  funciton to create a set  of evenly spaced bins
 mybins = np.linspace(0, 1000, num=15)
 # another example using the max flow to set the upper limit for the bins
@@ -113,14 +115,122 @@ plt.title('Streamflow')
 plt.xlabel('Flow [cfs]')
 plt.ylabel('Count')
 
-
 #%%
-# Attempt: Trying to isolate just September
-flow_data_Sep = flow_data[flow_data[:,1] ==9]
-mybins = np.linspace(0, 1000, num=20)
-plt.hist(flow_data_Sep[:,3], bins = mybins)
+# Attempt: Isolate just September (All years)
+flow_data_Sep1 = flow_data[flow_data[:,1] ==9]
+mybins = np.linspace(0, 2000, num=20)
+plt.hist(flow_data_Sep1[:,3], bins = mybins)
 plt.title('September Streamflow')
 plt.xlabel('Flow [cfs]')
 plt.ylabel('Count')
+
+#%%
+# Attempt: Isolate just September for last 10 years only
+flow_data_Sep2 = flow_data[(flow_data[:,1] ==9) & (flow_data[:,0]>2010)]
+mybins = np.linspace(0, 1000, num=20)
+plt.hist(flow_data_Sep2[:,3], bins = mybins)
+plt.title('September Streamflow 2010-2020')
+plt.xlabel('Flow [cfs]')
+plt.ylabel('Count')
+
+#%%
+# Attempt: Isolate just September for last 2 years only
+flow_data_Sep3 = flow_data[(flow_data[:,1] ==9) & (flow_data[:,0]>2018)]
+mybins = np.linspace(0, 200, num=20)
+plt.hist(flow_data_Sep3[:,3], bins = mybins)
+plt.title('September Streamflow 2018-2020')
+plt.xlabel('Flow [cfs]')
+plt.ylabel('Count')
+
+#%%
+# Attempt: Isolate just September for last 10 years only and week of 9/20 - 9/26
+flow_data_Sep19_26_2010_2020 = flow_data[(flow_data[:,1] ==9) & (flow_data[:,0]>2010) & (flow_data[:,2] >=20) & (flow_data[:,2]<=26 )]
+mybins = np.linspace(0, 250, num=20)
+#mybins = np.linspace(0, np.max(flow_data_Sep19_26), num=20) 
+plt.hist(flow_data_Sep19_26_2010_2020[:,3], bins = mybins)
+plt.title('September Streamflow 2010-2020, Week of Sep20-26')
+plt.xlabel('Flow [cfs]')
+plt.ylabel('Count')
+
+#%%
+# Attempt: Isolate just September for last 2 years only and week of 9/20 - 9/26
+flow_data_Sep19_26_2018_2020 = flow_data[(flow_data[:,1] ==9) & (flow_data[:,0]>=2018) & (flow_data[:,2] >=20) & (flow_data[:,2]<=26 )]
+mybins = np.linspace(0, 160, num=10)
+#mybins = np.linspace(0, np.max(flow_data_Sep19_26), num=20) 
+plt.hist(flow_data_Sep19_26_2018_2020[:,3], bins = mybins)
+plt.title('September Streamflow 2018-2020, Week of Sep20-26')
+plt.xlabel('Flow [cfs]')
+plt.ylabel('Count')
+
+#%%
+# Attempt: Isolate just September for 2020
+flow_data_Sep2020 = flow_data[(flow_data[:,1] ==9) & (flow_data[:,0]==2020)]
+mybins = np.linspace(0, 80, num=10)
+#mybins = np.linspace(0, np.max(flow_data_Sep19_26), num=20) 
+plt.hist(flow_data_Sep2020[:,3], bins = mybins)
+plt.title('September Streamflow 2020')
+plt.xlabel('Flow [cfs]')
+plt.ylabel('Count')
+
+
+#%%
+# Attempt: Isolate just September for last 2 years only and week of 9/20 - 9/26 and/
+#October for last 2 years for days 1-3
+# THIS ONE DOESN'T RUN - think it's the 'or' but not sure what else to use
+flow_data_Sep19_26_Oct1_3_2018_2020 = flow_data[(flow_data[:,0]>=2018) & ((flow_data[:,1] ==9) & (flow_data[:,2] >=20) & (flow_data[:,2]<=26 ))or ((flow_data[:,1] ==10) & (flow_data[:,2] >=1) & (flow_data[:,2]<=3))] 
+mybins = np.linspace(0, 160, num=10)
+#mybins = np.linspace(0, np.max(flow_data_Sep19_26), num=20) 
+plt.hist(flow_data_Sep19_26_Oct1_3_2018_2020[:,3], bins = mybins)
+plt.title('September-October Streamflow 2018-2020, Week of Sep27-Oct3')
+plt.xlabel('Flow [cfs]')
+plt.ylabel('Count')
+
+#%%
+# Attempt: Isolate just October for last 10 years only and days 1-3
+flow_data_begOct10yr = flow_data[(flow_data[:,1] ==10) & (flow_data[:,0]>=2010) & (flow_data[:,2] >=1) & (flow_data[:,2]<=3)]
+mybins = np.linspace(0, 500, num=10)
+#mybins = np.linspace(0, np.max(flow_data_Sep19_26), num=20) 
+plt.hist(flow_data_begOct10yr[:,3], bins = mybins)
+plt.title('October 1-3 Streamflow 2010-2020')
+plt.xlabel('Flow [cfs]')
+plt.ylabel('Count')
+
+#%%
+# Attempt: Isolate just October 2019
+flow_data_Oct2019 = flow_data[(flow_data[:,1] ==10) & (flow_data[:,0]==2019)]
+mybins = np.linspace(0, 150, num=10)
+#mybins = np.linspace(0, np.max(flow_data_Sep19_26), num=20) 
+plt.hist(flow_data_Oct2019[:,3], bins = mybins)
+plt.title('October Streamflow 2019')
+plt.xlabel('Flow [cfs]')
+plt.ylabel('Count')
+
+#Quantiles
+#%%
+#Quantiles and stats for September 2020
+flow_quants_Sep2020 = np.quantile(flow_data_Sep2020[:,3], q=[0,0.25, 0.5, 0.75])
+print(flow_quants_Sep2020)
+print(np.min(flow_data_Sep2020[:,3]))
+print(np.max(flow_data_Sep2020[:,3]))
+print(np.mean(flow_data_Sep2020[:,3]))
+print(np.median(flow_data_Sep2020[:,3]))
+
+#%%
+#Quantiles and stats for early October, historical last 10 years
+flow_quants_begOct10yr = np.quantile(flow_data_begOct10yr[:,3], q=[0,0.25, 0.5, 0.75])
+print(flow_quants_begOct10yr)
+print(np.min(flow_data_begOct10yr[:,3]))
+print(np.max(flow_data_begOct10yr[:,3]))
+print(np.mean(flow_data_begOct10yr[:,3]))
+print(np.median(flow_data_begOct10yr[:,3]))
+
+#%%
+#Quantiles and stats for October 2019
+flow_quants_Oct2019 = np.quantile(flow_data_Oct2019[:,3], q=[0,0.25, 0.5, 0.75])
+print(flow_quants_Oct2019)
+print(np.min(flow_data_Oct2019[:,3]))
+print(np.max(flow_data_Oct2019[:,3]))
+print(np.mean(flow_data_Oct2019[:,3]))
+print(np.median(flow_data_Oct2019[:,3]))
 
 # %%
