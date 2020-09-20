@@ -9,15 +9,15 @@
 **1) Include discussion of the quantitative analysis that lead to your prediction. This can include any analysis you complete but must include at least two histograms and some quantitative discussion of flow quantiles that helped you make your decision.**
 
  - Discussion for my one-week prediction (9/20-9/26):
-  - To start i just wanted to see how flow data for September compared with all data, and how has changed over time (and play around with histograms a bit):
+    - To start i just wanted to see how flow data for September compared with all data, and how has changed over time (and play around with histograms a bit):
      - For histograms:
-      - I looked at all flow data (as provided in the starter code), then isolated just September for all data
-      - I then looked at September for just the last 10 years
-      - I then plotted just September for the last 2 years.  
-      - I then looked at just September for last 10 years and last 2 years for specific data in the week of 9/20 - 9/26 (our one-week forecast dates).   For this week the last 2 years, I saw that the majority of the data fell below 160cfs for September.  
-      - I then looked at histogram for just September of 2020 and see the range of flows has only been from approximately 35 to 71cfs which is much lower.  (side note: i need to work on better naming convention b/c they are getting a little long i think)
+        - I looked at all flow data (as provided in the starter code), then isolated just September for all data
+        - I then looked at September for just the last 10 years
+        - I then plotted just September for the last 2 years.  
+        - I then looked at just September for last 10 years and last 2 years for specific data in the week of 9/20 - 9/26 (our one-week forecast dates).   For this week the last 2 years, I saw that the majority of the data fell below 160cfs for September.  
+        - I then looked at histogram for just September of 2020 and see the range of flows has only been from approximately 35 to 71cfs which is much lower.  (side note: i need to work on better naming convention b/c they are getting a little long i think)
      - For flow quantiles:
-      - To find recent trends, I looked at September 2020 quantiles for 0, 0.25, 0.5, and 0.75 which were 36.6, 45.2, 52.35, and 57.475.  The min, max, mean and median were 36.6, 65.3, 51.3, and 52.3.
+        - To find recent trends, I looked at September 2020 quantiles for 0, 0.25, 0.5, and 0.75 which were 36.6, 45.2, 52.35, and 57.475.  The min, max, mean and median were 36.6, 65.3, 51.3, and 52.3.
 
 - Discussion for my two-week prediction (9/27-10/3):
   - This one is a bit harder to isolate because it spans two months with same contained days.  I was unsuccessful with this code using an 'or' statement.
