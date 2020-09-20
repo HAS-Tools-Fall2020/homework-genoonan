@@ -38,7 +38,8 @@
 
 **5) How does the daily flow generally change from the first half of September to the second?**
 
-- Answer: ...
+- Answer: The daily flow generally decreases in September based on the average of 1st half of September over the data period = 178.1 and the average over the last half of September =  169.1
+
 
 
 ---
