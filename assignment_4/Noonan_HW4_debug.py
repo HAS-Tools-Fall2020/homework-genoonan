@@ -197,7 +197,7 @@ flow_data_Sep27_30_Oct1_3_2018_2020 = flow_data[(flow_data[:,0]>=2018) &
                                                 ((flow_data[:,1] ==10) & 
                                                 (flow_data[:,2] >=1) & 
                                                 (flow_data[:,2]<=3))] 
-mybins = np.linspace(0, 500, num=10)
+mybins = np.linspace(0, 160, num=10)
 plt.hist(flow_data_Sep27_30_Oct1_3_2018_2020[:,3], bins = mybins)
 plt.title('September-October Streamflow 2018-2020, Week of Sep27-Oct3')
 plt.xlabel('Flow [cfs]')
