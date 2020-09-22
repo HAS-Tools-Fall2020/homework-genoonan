@@ -4,6 +4,10 @@
 
 ---------
 
+### Grade
+3/3 - Great work! Glad we could sort out the 'or issue'. Next time try including your graphs in the markdown file. 
+___
+
 ### Week 4 Questions
 ---
 **1) Include discussion of the quantitative analysis that lead to your prediction. This can include any analysis you complete but must include at least two histograms and some quantitative discussion of flow quantiles that helped you make your decision.**
