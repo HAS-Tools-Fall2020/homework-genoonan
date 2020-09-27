@@ -1,4 +1,4 @@
-# **Gillian Noonan**
+# **Gillian Noonan** &#x1F604; &#x1F44D;
 ## *Homework 5*
 ### 9/28/20
 
