@@ -168,6 +168,56 @@ plt.show()
 
 #%%
 #6)Provide a list of historical dates with flows that are within 10% of your week 1 forecast value. If there are none than increase the %10 window until you have at least one other value and report the date and the new window you used
+data2
+
+#%%
+# Get upper and lower range values
+w1_value = 56.2
+percent_var = 0.1
+
+w1_value_ten_upper = w1_value + (w1_value*percent_var) 
+print(w1_value_ten_upper)
+
+w1_value_ten_lower = w1_value - (w1_value*percent_var) 
+print(w1_value_ten_lower)
+
+#%%
+# NEEDS DEBUGGING - WORKS SEPARATELY, BUT NOT WITH & or and
+# Pieced out for an answer for now......
+upper = data2[data2["flow"]< w1_value_ten_upper]
+upper
+#%%
+upper[upper["flow"] > w1_value_ten_lower]
 
 
+# %%
+# Weekly forecast
+data_weekly = data.tail(7)
+data_weekly
+
+# %%
+data_weekly_flow_sum = data_weekly["flow"].sum()
+data_weekly_flow_sum
+
+#%%
+# Past Week Mean Flow
+data_weekly_flow_mean = data_weekly_flow_sum/7
+print("Average weekly flow for last 7 days was", data_weekly_flow_mean)
+
+# or more succinct code:
+#%%
+data_weekly[["flow"]].describe()
+
+# %%
+flow_by_day=data_weekly.groupby(["day"])[["flow"]].head(7)
+flow_by_day
+
+#%%
+# look at weekly trend
+f, ax = plt.subplots()
+
+ax.bar(x=data_weekly.day, height = data_weekly.flow, color="purple")
+
+ax.set(title="One week flow trend")
+plt.show()
 # %%

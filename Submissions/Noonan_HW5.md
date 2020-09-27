@@ -3,7 +3,20 @@
 ### 9/28/20
 
 ---------
+### Week 5 Forecast
+Discussion for the Week 5 forecast:
+  - One-week forecast - I looked at the last 7 days and calculated the mean value and looked at the data trend over the week and it is trending down so i went a bit lower than the mean.
+    - flow mean = 56.2
+    - data trend plot
+    ![](assets/Noonan_HW5-c1a1e778.png)  
 
+
+
+  - Two-week forecast - I looked at the dates for 10/4 - 10/10 historically.
+        - flow mean =  
+        - data trend plot
+          -
+---
 ### Week 5 Questions
 ---
 
@@ -66,6 +79,11 @@ _Figure 8 - Min Flow by Month_
   |Dec|2012|155|2004|28700|
 
 **6. Provide a list of historical dates with flows that are within 10% of your week 1 forecast value. If there are none than increase the %10 window until you have at least one other  value and report the date and the new window you used**
+
+There are 582 values historically that come within 10% of my w1 forecast value (56.2).  The list is long so here is the condensed dataframe -
+
+_Figure 9 - List of historical dates with flows within 10%_   
+![](assets/Noonan_HW5-cf5af2ca.JPG)
 
 
 
