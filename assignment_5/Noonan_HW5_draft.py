@@ -191,7 +191,8 @@ upper[upper["flow"] > w1_value_ten_lower]
 
 
 # %%
-# Weekly forecast
+#WEEKLY FORECAST WEEK 5
+# 1week forecast
 data_weekly = data.tail(7)
 data_weekly
 
@@ -216,8 +217,24 @@ flow_by_day
 # look at weekly trend
 f, ax = plt.subplots()
 
-ax.bar(x=data_weekly.day, height = data_weekly.flow, color="purple")
+ax.plot(data_weekly.day, data_weekly.flow)
 
 ax.set(title="One week flow trend")
 plt.show()
+# %%
+# 2week forecast
+#AGAIN, THIS IS SOOOO CLUNKY.  HOW CAN I MAKE THIS MORE EFFICIENT - WITH CONDIDTIONALS MAYBE? CAN'T GET THEM TO WORK IN THE FILTER
+data_Oct = data[data["month"]==10]
+data_Oct
+
+#%%
+data1_Oct_4_10 = data_Oct[data_Oct["day"]>=4]     
+data1_Oct_4_10 
+# %%
+data2_Oct_4_10 = data1_Oct_4_10[data1_Oct_4_10["day"]<=10]
+data2_Oct_4_10
+# %%
+# Get historical stats for October 4-10
+data2_Oct_4_10[["flow"]].describe()
+
 # %%
