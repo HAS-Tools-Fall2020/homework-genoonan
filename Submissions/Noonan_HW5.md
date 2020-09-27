@@ -8,14 +8,14 @@ Discussion for the Week 5 forecast:
   - One-week forecast - I looked at the last 7 days and calculated the mean value. I then looked at the data trend over the week and it is trending downward so I went a bit lower than the mean for the 1wk forecast.
     - flow mean = 56.2
     - data trend plot  
-    
+
     ![](assets/Noonan_HW5-b64d7450.png)
 
 
 
-  - Two-week forecast - I looked at the historical flow statistics for the dates of 10/4 - 10/10 historically since 1989 and chose the overall minimum value for my forecast.  
+  - Two-week forecast - I looked at the historical flow statistics for the dates of 10/4 - 10/10 historically since 1989 and chose the overall minimum value for my forecast....for now  
 
-      ![](assets/Noonan_HW5-8bf4296b.JPG)
+    ![](assets/Noonan_HW5-f36d97b2.JPG)
 
 ---
 ### Week 5 Questions

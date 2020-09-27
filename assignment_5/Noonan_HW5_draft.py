@@ -183,11 +183,14 @@ print(w1_value_ten_lower)
 
 #%%
 # NEEDS DEBUGGING - WORKS SEPARATELY, BUT NOT WITH & or and
-# Pieced out for an answer for now......
-upper = data2[data2["flow"]< w1_value_ten_upper]
-upper
+# UPDATE - figured out the parentheses!! WORKS
+data2[(data2["flow"] < w1_value_ten_upper) & (data["flow"] > w1_value_ten_lower)]
 #%%
-upper[upper["flow"] > w1_value_ten_lower]
+# Pieced out for an answer for now......
+#upper = data2[data2["flow"]< w1_value_ten_upper]
+#upper
+#%%
+#upper[upper["flow"] > w1_value_ten_lower]
 
 
 # %%
@@ -221,20 +224,27 @@ ax.plot(data_weekly.day, data_weekly.flow)
 
 ax.set(title="One week flow trend")
 plt.show()
-# %%
+
+
 # 2week forecast
 #AGAIN, THIS IS SOOOO CLUNKY.  HOW CAN I MAKE THIS MORE EFFICIENT - WITH CONDIDTIONALS MAYBE? CAN'T GET THEM TO WORK IN THE FILTER
-data_Oct = data[data["month"]==10]
-data_Oct
+# %%
+#data_Oct = data[data["month"]==10]
+# data_Oct
 
 #%%
-data1_Oct_4_10 = data_Oct[data_Oct["day"]>=4]     
-data1_Oct_4_10 
+# data1_Oct_4_10 = data_Oct[data_Oct["day"]>=4]     
+# data1_Oct_4_10 
 # %%
-data2_Oct_4_10 = data1_Oct_4_10[data1_Oct_4_10["day"]<=10]
-data2_Oct_4_10
+# data2_Oct_4_10 = data1_Oct_4_10[data1_Oct_4_10["day"]<=10]
+# data2_Oct_4_10
 # %%
 # Get historical stats for October 4-10
-data2_Oct_4_10[["flow"]].describe()
+# data2_Oct_4_10[["flow"]].describe()
 
+# %%
+# TRYING TO UNCLUNK IT 
+# UPDATE - SUCCESS!!
+data_Oct_two_week = data[(data["month"]==10) & (data["day"] <=10) & (data["day"] >=4)]
+data_Oct_two_week["flow"].describe()
 # %%
