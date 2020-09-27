@@ -21,12 +21,12 @@ _Figure 1: dataframe info_
 
 **2. Provide a summary of the flow column including the min, mean, max, standard deviation and quartiles.**  
 
-_Figure 2: flow statistics_  
+_Figure 2: flow statistics_All_  
 ![](assets/Noonan_HW5-5e77a05d.JPG)
 
 **3. Provide the same information but on a monthly basis. (Note: you should be able to do this with one or two lines of code)**  
 
-_Figure 4 - Five highest flow values_  
+_Figure 4 - flow statistics_monthly_   
 ![](assets/Noonan_HW5-ab91d271.JPG)
 
 **4. Provide a table with the 5 highest and 5 lowest flow values for  the period of record. Include the date, month and flow values in your summary**  
@@ -47,6 +47,8 @@ _Figure 7 - Max Flow by Month_
 
 _Figure 8 - Min Flow by Month_  
 ![](assets/Noonan_HW5-b463d9e8.JPG)
+
+
 
   |Month|Year|Min Flow|Max Flow|
   |-----|-----|-----|-----|
