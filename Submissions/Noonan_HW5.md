@@ -32,10 +32,10 @@ _Figure 4 - flow statistics_monthly_
 **4. Provide a table with the 5 highest and 5 lowest flow values for  the period of record. Include the date, month and flow values in your summary**  
 
 _Figure 4 - Five highest flow values_  
-![](assets/Noonan_HW5-a8d995ab.JPG)
+![](assets/Noonan_HW5-d1f63e90.JPG)
 
 _Figure 5 - Five lowest flow values_  
-![](assets/Noonan_HW5-9ee83c5e.JPG)
+![](assets/Noonan_HW5-1346d2af.JPG)
 
 **5.  Find the highest and lowest flow  values for every month of the year (i.e. you will find 12 maxes and 12 mins) and report back what year these occurred in.**  
 

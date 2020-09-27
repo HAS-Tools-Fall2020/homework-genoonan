@@ -67,11 +67,10 @@ data2 = data[['datetime', 'month', 'flow']]
 data2
 
 #%%
-data2.sort_values(by="flow", ascending=False)
+data2.sort_values(by="flow", ascending=False).head(5)
+
 #%%
-data2.head(5)
-#%%
-data2.tail(5)
+data2.sort_values(by="flow", ascending=False).tail(5)
 
 #%%
 #5)Find the highest and lowest flow values for every month of the year (i.e. you will find 12 maxes and 12 mins) and report back what year these occurred in
