@@ -57,9 +57,11 @@ data.groupby("month")["flow"].describe()
 
 #%%
 #4)Provide a table with the 5 highest and 5 lowest flow values for the period of record. Include the date, month and flow values in your summary
+# highest 5
 data.sort_values(by="flow", ascending=False).head(5)[['datetime', 'month', 'flow']]
 
 #%%
+# lowest 5
 data.sort_values(by="flow", ascending=False).tail(5)[['datetime', 'month', 'flow']]
 
 #%%
@@ -67,7 +69,6 @@ data.sort_values(by="flow", ascending=False).tail(5)[['datetime', 'month', 'flow
 flow_by_month=data.groupby(["month"])[["flow"]].describe()
 flow_by_month.columns=flow_by_month.columns.droplevel(0)
 flow_by_month
-
 
 #PULLING OUT YEARS For Min and Max Flow
 #%%
@@ -120,14 +121,15 @@ data[(data["flow"] < w1_value_ten_upper) &
          (data["flow"] > w1_value_ten_lower)][["datetime", "flow"]]
 
 
-
-# %%
 #WEEKLY FORECAST WEEK 5
+
 # 1week forecast - look at last 7 days
+# %%
 data_weekly = data.tail(7)
 data_weekly
 
 #%%
+# look at prior week stats
 data_weekly[["flow"]].describe()
 
 # %%
@@ -139,34 +141,17 @@ ax.plot(data_weekly.day, data_weekly.flow)
 ax.set(title="One week flow trend")
 plt.show()
 
-
-# 2week forecast
-#AGAIN, THIS IS SOOOO CLUNKY.  HOW CAN I MAKE THIS MORE EFFICIENT - WITH CONDIDTIONALS MAYBE? CAN'T GET THEM TO WORK IN THE FILTER
-# %%
-#data_Oct = data[data["month"]==10]
-# data_Oct
-
+# 2week forecast - Oct4-10 min
 #%%
-# data1_Oct_4_10 = data_Oct[data_Oct["day"]>=4]     
-# data1_Oct_4_10 
-# %%
-# data2_Oct_4_10 = data1_Oct_4_10[data1_Oct_4_10["day"]<=10]
-# data2_Oct_4_10
-# %%
-# Get historical stats for October 4-10
-# data2_Oct_4_10[["flow"]].describe()
-
-# %%
-# TRYING TO UNCLUNK IT 
-# UPDATE - SUCCESS!!
 month = 10
-day_less = 10
 day_more = 4
-data_Oct_two_week = data[(data["month"]==month) & (data["day"] <=day_less) & (data["day"] >=day_more)]
-data_Oct_two_week["flow"].min()
+day_less = 10
+
+data_two_week = data[(data["month"]==month) & (data["day"] >=day_more) & (data["day"] <=day_less)]
+data_two_week["flow"].min()
 
 # %%
-#seasonal wk6 9/27-10/3
+#seasonal wk6 historical min
 month1 = 9
 day1 = 27
 month2 = 10
@@ -175,18 +160,93 @@ data_seasonal_6 = data[((data["month"]==month1) & (data["day"] >=day1)) | ((data
 data_seasonal_6["flow"].min()
 
 # %%
-#seasonal wk7 10/4-10/10
+#seasonal wk7 historical min
 month = 10
-day_less = 10
 day_more = 4
-data_Oct_two_week = data[(data["month"]==month) & (data["day"] <=day_less) & (data["day"] >=day_more)]
-data_Oct_two_week["flow"].min()
+day_less = 10
+
+data_two_week = data[(data["month"]==month) & (data["day"] >=day_more) & (data["day"] <=day_less)]
+data_two_week["flow"].min()
 
 # %%
-#seasonal wk8 10/11-10/17
+#seasonal wk8 historical min
 month = 10
-day_less = 17
 day_more = 11
-data_Oct_two_week = data[(data["month"]==month) & (data["day"] <=day_less) & (data["day"] >=day_more)]
-data_Oct_two_week["flow"].min()
+day_less = 17
+
+data_two_week = data[(data["month"]==month) & (data["day"] >=day_more) & (data["day"] <=day_less)]
+data_two_week["flow"].min()
+
+# %%
+#seasonal wk9 historical min
+month = 10
+day_more = 18
+day_less = 24
+
+data_two_week = data[(data["month"]==month) & (data["day"] >=day_more) & (data["day"] <=day_less)]
+data_two_week["flow"].min()
+
+# %%
+#seasonal wk10 historical min
+month = 10
+day_more = 25
+day_less = 31
+
+data_two_week = data[(data["month"]==month) & (data["day"] >=day_more) & (data["day"] <=day_less)]
+data_two_week["flow"].min()
+
+# %%
+#seasonal wk11 historical min
+month = 11
+day_more = 1
+day_less = 7
+
+data_two_week = data[(data["month"]==month) & (data["day"] >=day_more) & (data["day"] <=day_less)]
+data_two_week["flow"].min()
+
+# %%
+#seasonal wk12 historical min
+month = 11
+day_more = 8
+day_less = 14
+
+data_two_week = data[(data["month"]==month) & (data["day"] >=day_more) & (data["day"] <=day_less)]
+data_two_week["flow"].min()
+
+# %%
+#seasonal wk13 historical min
+month = 11
+day_more = 15
+day_less = 21
+
+data_two_week = data[(data["month"]==month) & (data["day"] >=day_more) & (data["day"] <=day_less)]
+data_two_week["flow"].min()
+
+# %%
+#seasonal wk14 historical min
+month = 11
+day_more = 22
+day_less = 28
+
+data_two_week = data[(data["month"]==month) & (data["day"] >=day_more) & (data["day"] <=day_less)]
+data_two_week["flow"].min()
+
+# %%
+#seasonal wk15 historical min
+month1 = 11
+day1 = 29
+month2 = 12
+day2 = 5
+data_seasonal_6 = data[((data["month"]==month1) & (data["day"] >=day1)) | ((data["month"] ==month2) & (data["day"] <=day2))]
+data_seasonal_6["flow"].min()
+
+# %%
+#seasonal wk15 historical min
+month = 12
+day_more = 6
+day_less = 12
+
+data_two_week = data[(data["month"]==month) & (data["day"] >=day_more) & (data["day"] <=day_less)]
+data_two_week["flow"].min()
+
 # %%

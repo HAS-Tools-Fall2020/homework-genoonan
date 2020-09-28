@@ -5,7 +5,7 @@
 ---------
 ### Week 5 Forecast
 Discussion for the Week 5 forecast:
-  - One-week forecast - I looked at the last 7 days and calculated the mean value. I then looked at the data trend over the week and it is trending downward so I went a bit lower than the mean for the 1wk forecast.
+  - One-week forecast - I looked at the last 7 days and the mean value. I then looked at the data trend over the week and it is trending downward so I went a bit lower than the mean for the 1wk forecast.
     - flow mean = 56.2
     - data trend plot  
 
@@ -17,6 +17,7 @@ Discussion for the Week 5 forecast:
 
     ![](assets/Noonan_HW5-f36d97b2.JPG)
 
+- Seasonal forecast - I switched up my seasonal this week and actually wrote some code - I looked at the historical flow statistics for all seasonal dates for week 6 onward, since 1989, and chose the overall minimum value for my forecast for each window....for now....
 ---
 ### Week 5 Questions
 ---
