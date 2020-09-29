@@ -1,6 +1,9 @@
 # **Gillian Noonan** &#x1F604; &#x1F44D;
 ## *Homework 5*
 ### 9/28/20
+___
+## Grade
+3/3 - great job! I like the graphs and the emojis! :)
 
 ---------
 ### Week 5 Forecast
