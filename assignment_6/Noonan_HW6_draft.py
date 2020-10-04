@@ -73,10 +73,9 @@ test
 
 #%%
 # Fit a linear regression model using sklearn
-model = LinearRegression()
 x=train['flow_tm1'].values.reshape(-1,1) 
 y=train['flow'].values
-model.fit(x,y)
+model = LinearRegression().fit(x, y) #shortened starter code!
 
 #%%
 # r^2 values
@@ -106,7 +105,7 @@ fig.savefig('One-week(Test1).png')
 q_pred_train = model.predict(train['flow_tm1'].values.reshape(-1,1))
 q_pred_test = model.predict(test['flow_tm1'].values.reshape(-1,1))
 print(q_pred_test)
-
+print(q_pred_train)
 #%%
 # you could also predict the q for just a single value like this
 last_week_flow = 56
@@ -137,11 +136,9 @@ ax.legend(frameon=True, fancybox=True, shadow=True)
 fig.savefig('One-week(Test1)_(t-vs-(t-1)).png')
 
 
-
-
-
-# %%
 #WEEKLY FORECAST WEEK 6
+# ----------------------------------------------
+# %%
 #import dataframe_image to export tables to png
 import dataframe_image as dfi
 #%%
@@ -159,34 +156,20 @@ print(df)
 dfi.export(df, "Last7days-stats.png")
 
 # %%
-# look at trend over last two weeks
+#looks at prior two week stats
 data_two_wks = data.tail(14)
-fig, ax = plt.subplots()
+df2 = data_two_wks[["flow"]].describe()
+print(df2)
+dfi.export(df2, "Last14days-stats.png")
 
+#%%
+# look at trend over last two weeks
+fig, ax = plt.subplots()
 ax.plot(data_two_wks.datetime, data_two_wks.flow)
 ax.set(title="Two-week flow trend")
 ax.set(xlabel='Date', ylabel='Daily Flow (cfs)')
-plt.rc('xtick', labelsize=7)
 plt.show()
 fig.savefig('Two-week-Trend_(Old-Code).png')
-
-#%%
-# 2week forecast - Oct11-17 min
-month = 10
-day_more = 11
-day_less = 17
-
-data_two_week = data[(data["month"]==month) & (data["day"] >=day_more) & (data["day"] <=day_less)]
-data_two_week["flow"].min()
-
-# %%
-#seasonal wk6 historical min
-month1 = 9
-day1 = 27
-month2 = 10
-day2 = 3
-data_seasonal_6 = data[((data["month"]==month1) & (data["day"] >=day1)) | ((data["month"] ==month2) & (data["day"] <=day2))]
-data_seasonal_6["flow"].min()
 
 # %%
 #seasonal wk7 historical min
@@ -278,4 +261,4 @@ day_less = 12
 data_two_week = data[(data["month"]==month) & (data["day"] >=day_more) & (data["day"] <=day_less)]
 data_two_week["flow"].min()
 
-# %%
+
