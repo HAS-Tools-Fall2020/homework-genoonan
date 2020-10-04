@@ -15,7 +15,7 @@ ___
 
 - **(2) the final equation for your model**
 
-  - x(t) = m * x(t+1) + b = 0.7 * x(t+1) + 31.95
+  - x(t) = m * x(t-1) + b = 0.7 * x(t-1) + 31.95
 
 
 

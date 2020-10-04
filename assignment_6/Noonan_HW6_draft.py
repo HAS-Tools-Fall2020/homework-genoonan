@@ -25,15 +25,16 @@ data=pd.read_table(filepath, sep = '\t', skiprows=30,
         )
 
 #%%
-# Expand the dates to year month day
+# Expand the dates to year month day 
+# **corrected third line to ".day"
 data['year'] = pd.DatetimeIndex(data['datetime']).year
 data['month'] = pd.DatetimeIndex(data['datetime']).month
-data['day'] = pd.DatetimeIndex(data['datetime']).dayofweek
+data['day'] = pd.DatetimeIndex(data['datetime']).day
 data['dayofweek'] = pd.DatetimeIndex(data['datetime']).dayofweek
 
 #%%
 # View data format - data
-data.head(3)
+data.head(15)
 
 #%%
 # Aggregate flow values to weekly 
@@ -47,20 +48,20 @@ flow_weekly['flow_tm2'] = flow_weekly['flow'].shift(2)
 
 #%%
 # View flow_weekly format
+# 1658 rows x 8 columns
 flow_weekly
 
 #%%
 #TEST 1
 # set training and test data sets for one-week forecast - 10/4 to 10/10
-# train period is September data for 2015 - 2019
-#test period is September 2020
-# grabbing these dates historically 
+# train period is September data only for 2017 - 2019
+# using last 10 weeks for test data
 month1 = 9
 year_trainmin = 2017
 year_trainmax = 2019
-year_test1 = 2020
 train = flow_weekly[(flow_weekly["month"]==month1) & (flow_weekly["year"] >=year_trainmin)&(flow_weekly["year"] <=year_trainmax)][['month','flow', 'flow_tm1', 'flow_tm2']]
-test = flow_weekly[(flow_weekly["month"]==month1) & (flow_weekly["year"] == 2020)][['month', 'flow', 'flow_tm1', 'flow_tm2']]
+test = flow_weekly[1648:][['flow', 'flow_tm1', 'flow_tm2']]
+print ("good luck!")
 
 #%%
 # view train period data
@@ -102,17 +103,13 @@ fig.savefig('One-week(Test1).png')
 # Predict the model response for a  given flow value
 q_pred_train = model.predict(train['flow_tm1'].values.reshape(-1,1))
 q_pred_test = model.predict(test['flow_tm1'].values.reshape(-1,1))
+print(q_pred_test)
 
 #%%
 # you could also predict the q for just a single value like this
 last_week_flow = 56
 prediction = model.intercept_ + model.coef_ * last_week_flow
 print(prediction)
-
-# #%%
-# for i in range(len(flow_weekly)):
-#         if "month" == 9:
-#                 print(flow_weekly['flow'].min())
         
 #%%
 # 3. Line  plot comparison of predicted and observed flows
@@ -136,12 +133,146 @@ ax.plot(np.sort(train['flow_tm1']), np.sort(q_pred_train), label='AR model')
 ax.legend()
 fig.savefig('One-week(Test1)_(t-vs-(t-1)).png')
 
-# For your written assignment provide the following. Your submission should include at least 3 different types of plots (see the note at the end of the previous section for how to add these into your markdown file if you are not sure how to do that):
 
-# A summary of the AR model that you ended up building, including (1) what you are using as your prediction variables, (2) the final equation for your model and (3) what you used as your testing and training periods. In your discussion please include graphical outputs that support why you made the decisions you did with your model.
 
-# Provide an analysis of your final model performance. This should include at least one graph that shows the historical vs predicted streamflow and some discussion of qualitatively how you think your model is good or bad.
 
-# Finally, provide discussion on what you actually used for your forecast. Did you use your AR model, why or why not? If not how did you generate your forecast this week?
+
+# %%
+#WEEKLY FORECAST WEEK 6
+#import dataframe_image to export tables to png
+import dataframe_image as dfi
+#%%
+data
+
+# 1week forecast - look at last 7 days
+# %%
+data_weekly = data.tail(7)
+data_weekly
+
+#%%
+# look at prior week stats
+df = data_weekly[["flow"]].describe()
+print(df)
+dfi.export(df, "Last7days-stats.png")
+
+# %%
+# look at trend over last two weeks
+data_two_wks = data.tail(14)
+fig, ax = plt.subplots()
+
+ax.plot(data_two_wks.datetime, data_two_wks.flow)
+ax.set(title="Two-week flow trend")
+ax.set(xlabel='Date', ylabel='Daily Flow (cfs)')
+plt.rc('xtick', labelsize=7)
+plt.show()
+fig.savefig('Two-week-Trend_(Old-Code).png')
+
+#%%
+# 2week forecast - Oct11-17 min
+month = 10
+day_more = 11
+day_less = 17
+
+data_two_week = data[(data["month"]==month) & (data["day"] >=day_more) & (data["day"] <=day_less)]
+data_two_week["flow"].min()
+
+# %%
+#seasonal wk6 historical min
+month1 = 9
+day1 = 27
+month2 = 10
+day2 = 3
+data_seasonal_6 = data[((data["month"]==month1) & (data["day"] >=day1)) | ((data["month"] ==month2) & (data["day"] <=day2))]
+data_seasonal_6["flow"].min()
+
+# %%
+#seasonal wk7 historical min
+month = 10
+day_more = 4
+day_less = 10
+
+data_two_week = data[(data["month"]==month) & (data["day"] >=day_more) & (data["day"] <=day_less)]
+data_two_week["flow"].min()
+
+# %%
+#seasonal wk8 historical min
+month = 10
+day_more = 11
+day_less = 17
+
+data_two_week = data[(data["month"]==month) & (data["day"] >=day_more) & (data["day"] <=day_less)]
+data_two_week["flow"].min()
+
+# %%
+#seasonal wk9 historical min
+month = 10
+day_more = 18
+day_less = 24
+
+data_two_week = data[(data["month"]==month) & (data["day"] >=day_more) & (data["day"] <=day_less)]
+data_two_week["flow"].min()
+
+# %%
+#seasonal wk10 historical min
+month = 10
+day_more = 25
+day_less = 31
+
+data_two_week = data[(data["month"]==month) & (data["day"] >=day_more) & (data["day"] <=day_less)]
+data_two_week["flow"].min()
+
+# %%
+#seasonal wk11 historical min
+month = 11
+day_more = 1
+day_less = 7
+
+data_two_week = data[(data["month"]==month) & (data["day"] >=day_more) & (data["day"] <=day_less)]
+data_two_week["flow"].min()
+
+# %%
+#seasonal wk12 historical min
+month = 11
+day_more = 8
+day_less = 14
+
+data_two_week = data[(data["month"]==month) & (data["day"] >=day_more) & (data["day"] <=day_less)]
+data_two_week["flow"].min()
+
+# %%
+#seasonal wk13 historical min
+month = 11
+day_more = 15
+day_less = 21
+
+data_two_week = data[(data["month"]==month) & (data["day"] >=day_more) & (data["day"] <=day_less)]
+data_two_week["flow"].min()
+
+# %%
+#seasonal wk14 historical min
+month = 11
+day_more = 22
+day_less = 28
+
+data_two_week = data[(data["month"]==month) & (data["day"] >=day_more) & (data["day"] <=day_less)]
+data_two_week["flow"].min()
+
+# %%
+#seasonal wk15 historical min
+month1 = 11
+day1 = 29
+month2 = 12
+day2 = 5
+data_seasonal_6 = data[((data["month"]==month1) & (data["day"] >=day1)) | ((data["month"] ==month2) & (data["day"] <=day2))]
+data_seasonal_6["flow"].min()
+
+# %%
+#seasonal wk15 historical min
+month = 12
+day_more = 6
+day_less = 12
+
+data_two_week = data[(data["month"]==month) & (data["day"] >=day_more) & (data["day"] <=day_less)]
+data_two_week["flow"].min()
 
 # %%
