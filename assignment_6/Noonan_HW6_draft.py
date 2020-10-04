@@ -90,6 +90,8 @@ print('slope:', np.round(model.coef_, 2))
 
 #%%
 plt.style.use('ggplot')
+plt.rc('xtick', labelsize=8) 
+plt.rc('ytick', labelsize=8) 
 fig, ax = plt.subplots()
 ax.plot(train['flow'], '--k', label='train', linewidth=3)
 ax.plot(test['flow'], '-r', label='test')
@@ -117,20 +119,21 @@ fig, ax = plt.subplots()
 ax.plot(train['flow'], '-k', linewidth=2, label='observed')
 ax.plot(train.index, q_pred_train, ':r', linewidth=3, 
         label='simulated')
-ax.set(title="Observed Flow", xlabel="Date", ylabel="Weekly Avg Flow [cfs]",
-        yscale='log')
-ax.legend()
-plt.rc('xtick', labelsize=4) 
+ax.set(title="Observed Flow vs. Simulated Flow", xlabel="Model Duration Period", ylabel="Weekly Avg Flow [cfs]")
+ax.legend(frameon=True, fancybox=True, shadow=True)
+
 fig.savefig('One-week(Test1)_Predict-vs-observed.png')
 
 # 5. Scatter plot of t vs t-1 flow with normal axes
 #%%
 fig, ax = plt.subplots()
-ax.scatter(train['flow_tm1'], train['flow'], marker='p',
-              color='blueviolet', label='observations')
-ax.set(xlabel='flow t-1', ylabel='flow t')
-ax.plot(np.sort(train['flow_tm1']), np.sort(q_pred_train), label='AR model')
-ax.legend()
+ax.scatter(train['flow_tm1'], train['flow'], marker='o',
+              color='mediumvioletred', label='observations')
+ax.set(xlabel='flow t-1', ylabel='flow t', title="AR Model Fit")
+ax.plot(np.sort(train['flow_tm1']), np.sort(q_pred_train), label='AR model', linewidth=3, color = 'black')
+ax.text(50, 175, "x(t) = 0.7 * x(t-1) + 31.95", fontsize=10)
+ax.text(50, 155, "r^2 = 0.76", fontsize=10)
+ax.legend(frameon=True, fancybox=True, shadow=True)
 fig.savefig('One-week(Test1)_(t-vs-(t-1)).png')
 
 

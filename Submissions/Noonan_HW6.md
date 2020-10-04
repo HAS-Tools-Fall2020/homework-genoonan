@@ -24,12 +24,16 @@ ___
   - I tried a number of different prediction variables for the training period using the base code in my .py file.   I tried looking at data over all time up to test period (most recent 10 weeks), all data since 2015 up to test period, and all data 2017 up to test period.   The model r2 values were quite low for these trials (ranging from around 0.1 to 0.3) so i decided to isolate just data in the month of September to try to improve the model.   I then added in a month == variable and I looked at both all September data since 2015 and came up with an r2 of 0.62, which was improved.  Shifting that window up to 2017 - 2019 for the September data training period gave me an r2 of 0.76 which may be as good as it will get! I also tried adding in the month of August using the or (|) statement, but the fit was decreases so I stuck with just September for training data.  The figure below shows my final testing and training periods plotted.  These gave me the best fit for linear regression from all of my trials.  
 
 
-  ![](assets/Noonan_HW6-023bf8e9.png)
+![](assets/Noonan_HW6-cbbdb018.png)
 
 
 
 **Provide an analysis of your final model performance. This should include at least one graph that shows the historical vs predicted streamflow and some discussion of qualitatively how you think your model is good or bad.**  
-  - ....
+  - ....  
+
+![](assets/Noonan_HW6-0fc29a7b.png)
+
+![](assets/Noonan_HW6-59689e8f.png)
 
 **Finally, provide discussion on what you actually used for your forecast. Did you use your AR model, why or why not? If not how did you generate your forecast this week?**  
 
