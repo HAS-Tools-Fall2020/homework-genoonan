@@ -3,6 +3,8 @@
 ### 10/5/20
 ___
 
+### Grade
+3/3 - Great job! Nice work testing so  many models and nice graphs. 
 
 ---
 ### Week 6 Questions
