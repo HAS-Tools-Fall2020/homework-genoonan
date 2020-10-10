@@ -84,6 +84,7 @@ flow_weekly['flow_tm2'] = flow_weekly['flow'].shift(2)
 # Set training and test data periods
 # [train period is September data only for 2017 - 2019]
 # [test [period is using last 10 weeks data]
+
 month1 = 9
 year_trainmin = 2017
 year_trainmax = 2019
@@ -106,6 +107,7 @@ print("Good luck with your model!")
 # %%
 # Fit a linear regression model using sklearn (using one shift)
 # Print coefficient of determination, intercept and slope for model
+
 x = train['flow_tm1'].values.reshape(-1, 1)
 y = train['flow'].values
 model = LinearRegression().fit(x, y)
@@ -115,67 +117,52 @@ print('intercept:', np.round(model.intercept_, 2))
 print('slope:', np.round(model.coef_, 2))
 
 # %%
+# Plot of training and testing data periods
+
 plt.style.use('ggplot')
 plt.rc('xtick', labelsize=8)
 plt.rc('ytick', labelsize=8)
 fig, ax = plt.subplots()
-ax.plot(train['flow'], '--k', label='train', linewidth=3)
-ax.plot(test['flow'], '-r', label='test')
-ax.set(title="One-Week Prediction Training Test 1", xlabel="Date",
+ax.plot(train['flow'], '--k', label='training', linewidth=3)
+ax.plot(test['flow'], '-r', label='testing')
+ax.set(title="AR Model: Training and Testing Data", xlabel="Date (yyyy-mm)",
        ylabel="Weekly Avg Flow [cfs]",
        xlim=[datetime.date(2017, 1, 1),
              datetime.date(2021, 1, 1)])
 ax.legend(loc='upper right', frameon=True, fancybox=True, shadow=True, ncol=2)
 fig.savefig('One-week(Test1).png')
 
+
+# Task 3 - Predict Flow with Autoregressive (AR) model
+
 # %%
-# Step 4 Make a prediction with your model
-# Predict the model response for a  given flow value
+# Predict the model response for a given flow value
+# [passes the regressor as the argument and get the
+# corresponding predicted response]
+
 q_pred_train = model.predict(train['flow_tm1'].values.reshape(-1, 1))
 q_pred_test = model.predict(test['flow_tm1'].values.reshape(-1, 1))
-print(q_pred_test)
-print(q_pred_train)
 
 # %%
-# input = pd.Series([56,67])
-# q_pred_test = model.predict(input.values.reshape(-1, 1))
-# print(q_pred_test)
+# Plot comparison of simulated and observed flows
+# Save figure to working folder as PNG file
 
-# # %%
-# # you could also predict the q for just a single value like this
-# last_week_flow = np.array([56,67])
-# prediction = model.intercept_ + model.coef_ * last_week_flow
-# prediction2 = model.intercept_ + model.coef_ * prediction
-# print(prediction)
-# print(prediction2)
-
-# %%
-# you could also predict the q for just a single value like this
-last_week_flow = 56
-
-test = predictions(last_week_flow)
-print(test)
-
-
-# %%
-# for flow in range(100):
-#         predictions(flow)
-
-
-# %%
-# 3. Line  plot comparison of predicted and observed flows
 fig, ax = plt.subplots()
 ax.plot(train['flow'], '-k', linewidth=2, label='observed')
 ax.plot(train.index, q_pred_train, ':r', linewidth=3,
         label='simulated')
 ax.set(title="Observed Flow vs. Simulated Flow",
-       xlabel="Model Duration Period", ylabel="Weekly Avg Flow [cfs]")
+       xlabel="Model Duration Period (yyyy-mm)",
+       ylabel="Weekly Avg Flow [cfs]")
 ax.legend(frameon=True, fancybox=True, shadow=True)
 
 fig.savefig('One-week(Test1)_Predict-vs-observed.png')
 
-# 5. Scatter plot of t vs t-1 flow with normal axes
+
 # %%
+# Plot comparison of t vs t-1 flow
+# Save figure to working folder as PNG file
+
 fig, ax = plt.subplots()
 ax.scatter(train['flow_tm1'], train['flow'], marker='o',
            color='mediumvioletred', label='observations')
@@ -185,23 +172,38 @@ ax.plot(np.sort(train['flow_tm1']), np.sort(q_pred_train),
 ax.text(50, 175, "x(t) = 0.7 * x(t-1) + 31.95", fontsize=10)
 ax.text(50, 155, "r^2 = 0.76", fontsize=10)
 ax.legend(frameon=True, fancybox=True, shadow=True)
+
 fig.savefig('One-week(Test1)_(t-vs-(t-1)).png')
 
 
-# WEEKLY FORECAST WEEK 6
-# ----------------------------------------------
-# %%
-data
+# WEEKLY FORECAST WEEK 7
+# ---------------------------
+# AR Model
 
-# 1week forecast - look at last 7 days
 # %%
+# Predict one-week and two-week flow values
+#  using last week's average flow value and the AR model
+
+last_week_flow = np.mean(data.tail(7))['flow']
+one_two_flow = predictions(last_week_flow)
+
+print("Last week's average flow (cfs) was", last_week_flow)
+print("The one-week and two-week predicted"
+      " flow values from the AR model are:", one_two_flow)
+
+# Jill's Code
+
+# %%
+# One-week forecast
+# Look at statistics for last 7 days and
+# use mean to forecast the one-week flow
+
 data_weekly = data.tail(7)
-data_weekly
+print("The one-week flow prediction using Jill's code is:",
+      np.mean(data_weekly)["flow"])
 
-# %%
-# look at prior week stats
+# Save table of statistics as PNG for markdown
 df = data_weekly[["flow"]].describe()
-print(df)
 dfi.export(df, "Last7days-stats.png")
 
 # %%
