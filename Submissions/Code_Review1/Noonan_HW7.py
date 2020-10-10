@@ -245,11 +245,13 @@ print("Overall flow flucuation in past 7 days was",
 # forecast a percentage higher, if trend is downward, forecast a
 # percentage lower
 if perc_chng_total_1wk > 0:
-    print("The one-week flow prediction using Jill's code [JILL-1WK] is",
-          (mean_1wk + (mean_1wk * (perc_chng_total_1wk/100))))
+    Jill_1wk = mean_1wk + (mean_1wk * (perc_chng_total_1wk/100))
+    print("The one-week flow prediction using Jill's code"
+          " [JILL-1WK] is", Jill_1wk)
 elif perc_chng_total_1wk < 0:
-    print("The one-week flow prediction using Jill's code [JILL-1WK] is",
-          (mean_1wk - (mean_1wk * (perc_chng_total_1wk/100))))
+    Jill_1wk = mean_1wk - (mean_1wk * (perc_chng_total_1wk/100))
+    print("The one-week flow prediction using Jill's code"
+          " [JILL-1WK] is", Jill_1wk)
 
 
 # %%
@@ -280,8 +282,8 @@ print("Overall flow flucuation in past two weeks was",
 # forecast a percentage higher, if trend is downward, forecast a
 # percentage lower
 if perc_chng_total_2wk > 0:
-    print("The two-week flow prediction using Jill's code is",
-          (mean_2wk + (mean_2wk * (perc_chng_total_2wk/100))))
+    Jill_2wk = mean_2wk + (mean_2wk * (perc_chng_total_2wk/100))
+    print("The two-week flow prediction using Jill's code is", Jill_2wk)
 elif perc_chng_total_2wk < 0:
-    print("The two-week flow prediction using Jill's code is",
-          (mean_2wk - (mean_2wk * (perc_chng_total_2wk/100))))
+    Jill_2wk = mean_2wk - (mean_2wk * (perc_chng_total_2wk/100))
+    print("The two-week flow prediction using Jill's code is", Jill_2wk)
