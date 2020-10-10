@@ -93,10 +93,8 @@ test = flow_weekly[1648:][['flow', 'flow_tm1', 'flow_tm2']]
 
 print("Training data")
 print(train)
-
 print("Testing data")
 print(test)
-
 print("Good luck with your model!")
 
 # %%
@@ -112,6 +110,7 @@ print('slope:', np.round(model.coef_, 2))
 
 # %%
 # Plot of training and testing data periods
+# Save figure to working folder as PNG file
 plt.style.use('ggplot')
 plt.rc('xtick', labelsize=8)
 plt.rc('ytick', labelsize=8)
@@ -123,10 +122,11 @@ ax.set(title="AR Model: Training and Testing Data", xlabel="Date (yyyy-mm)",
        xlim=[datetime.date(2017, 1, 1),
              datetime.date(2021, 1, 1)])
 ax.legend(loc='upper right', frameon=True, fancybox=True, shadow=True, ncol=2)
+
 fig.savefig('One-week(Test1).png')
 
 
-# Task 3 - Predict Flow with Autoregressive (AR) model
+# Task 3 - Predict Model Response for Autoregressive (AR) model
 
 # %%
 # Predict the model response for a given flow value
@@ -148,9 +148,8 @@ ax.legend(frameon=True, fancybox=True, shadow=True)
 
 fig.savefig('One-week(Test1)_Predict-vs-observed.png')
 
-
 # %%
-# Plot comparison of t vs t-1 flow
+# Plot model fit for t vs t-1 flow
 # Save figure to working folder as PNG file
 fig, ax = plt.subplots()
 ax.scatter(train['flow_tm1'], train['flow'], marker='o',
@@ -164,6 +163,7 @@ ax.legend(frameon=True, fancybox=True, shadow=True)
 
 fig.savefig('One-week(Test1)_(t-vs-(t-1)).png')
 
+# Task 4 - Predict Flow with Autoregressive (AR) model
 
 # WEEKLY FORECAST WEEK 7
 # ---------------------------
@@ -176,7 +176,7 @@ one_two_flow = predictions(last_week_flow)
 
 print("Last week's average flow (cfs) was", last_week_flow)
 print("The one-week and two-week predicted"
-      " flow values from the AR model are:", one_two_flow)
+      " flow values from the AR model are [AR-1WK, AR-2WK]:", one_two_flow)
 
 # Jill's Code
 # %%
@@ -192,25 +192,18 @@ print("The historical minimum flow for the week of Oct. 11-17 is",
       hist_min["flow"].min(), "cfs")
 
 # %%
-# # Look at statistics for last 7 days and
-# Save table of statistics as PNG for markdown
+# # Look at statistics for last 7 and 14 days and
+# Save tables of statistics as PNG files for markdown
 data_weekly = data.tail(7)
+data_two_wks = data.tail(14)
+
 df1 = data_weekly[["flow"]].describe()
 print("Last week's flow statistics")
 print(df1)
 dfi.export(df1, "Last7days-stats.png")
 
-# %%
-# Use mean value to forecast the one-week flow
-predict_one = np.mean(data_weekly)["flow"]
-print("The one-week flow prediction using Jill's code is:", predict_one)
-
-# %%
-# Two-week forecast
-# Look at statistics for last 14 days and
-# Save table of statistics as PNG for markdown
-data_two_wks = data.tail(14)
 df2 = data_two_wks[["flow"]].describe()
+print("Last two week's flow statistics")
 print(df2)
 dfi.export(df2, "Last14days-stats.png")
 
@@ -226,36 +219,69 @@ plt.show()
 fig.savefig('Two-week-Trend_(Old-Code).png')
 
 # %%
-# Calculate absolute percent change in last two weeks
-min_two = np.min(data_two_wks['flow'])
-max_two = np.max(data_two_wks['flow'])
-mean_two = np.mean(data_two_wks['flow'])
-perc_chng = ((max_two - min_two)/min_two)*100
-print("Minimum value in last two weeks was", min_two)
-print("Maximum value in last two weeks was", max_two)
-print("mean value in last two weeks was", mean_two)
-print("Maximum flow flucuation in past two weeks was",
-      round(perc_chng, 2), "percent.")
-# %%
-one_std = np.std(data_two_wks['flow'])
-print(one_std)
+# Get one-week mean value
+mean_1wk = np.mean(data_weekly)["flow"]
+print("The mean flow for the last 7 days is:", mean_1wk)
 
 # %%
-first_val = data_two_wks.head(1)
-last_val = data_two_wks.tail(1)
-print(first_val)
-print(last_val)
+# Get beginning and end flow values for week
+first_val1 = data_weekly.head(1)
+last_val1 = data_weekly.tail(1)
+print(first_val1)
+print(last_val1)
+
 # %%
-#
-val_1 = 58.1
-val_2 = 63.4
-perc_chng_total = ((val_2 - val_1)/val_1)*100
+# Enter output for first_val1 and last_val1 above to val_1wk_1 and val_1wk_2
+# to calculate flucuation from start to end of last 14 days
+val_1wk_1 = 57.5
+val_1wk_2 = 63.4
+perc_chng_total_1wk = ((val_1wk_2 - val_1wk_1)/val_1wk_1)*100
+print("Overall flow flucuation in past 7 days was",
+      round(perc_chng_total_1wk, 2), "percent.")
+
+# %%
+# If statement to calculate predicted one-week value based on
+# percent change total from above code block.  If trend is upward,
+# forecast a percentage higher, if trend is downward, forecast a
+# percentage lower
+if perc_chng_total_1wk > 0:
+    print("The one-week flow prediction using Jill's code [JILL-1WK] is",
+          (mean_1wk + (mean_1wk * (perc_chng_total_1wk/100))))
+elif perc_chng_total_1wk < 0:
+    print("The one-week flow prediction using Jill's code [JILL-1WK] is",
+          (mean_1wk - (mean_1wk * (perc_chng_total_1wk/100))))
+
+
+# %%
+# Two-week forecast
+# Get two-week mean value
+mean_2wk = np.mean(data_two_wks)["flow"]
+print("The mean flow for the last 14 days is:", mean_2wk)
+
+# %%
+# Get beginning and end flow values for two-week period
+first_val2 = data_two_wks.head(1)
+last_val2 = data_two_wks.tail(1)
+print(first_val2)
+print(last_val2)
+
+# %%
+# Enter output for first_val2 and last_val2 above to val_2wk_1 and val__2wk2
+# to calculate flucuation from start to end of last 14 days
+val_2wk1 = 58.1
+val_2wk2 = 63.4
+perc_chng_total_2wk = ((val_2wk2 - val_2wk1)/val_2wk1)*100
 print("Overall flow flucuation in past two weeks was",
-      round(perc_chng_total, 2), "percent.")
+      round(perc_chng_total_2wk, 2), "percent.")
+
 # %%
-if perc_chng_total > 0:
+# If statement to calculate predicted two-week value based on
+# percent change total from above code block.  If trend is upward,
+# forecast a percentage higher, if trend is downward, forecast a
+# percentage lower
+if perc_chng_total_2wk > 0:
     print("The two-week flow prediction using Jill's code is",
-          (predict_one + (predict_one * (perc_chng_total/100))))
-elif perc_chng_total < 0:
+          (mean_2wk + (mean_2wk * (perc_chng_total_2wk/100))))
+elif perc_chng_total_2wk < 0:
     print("The two-week flow prediction using Jill's code is",
-          (predict_one - (predict_one * (perc_chng_total/100))))
+          (mean_2wk - (mean_2wk * (perc_chng_total_2wk/100))))
