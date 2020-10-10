@@ -13,15 +13,16 @@ import dataframe_image as dfi
 
 def predictions(last_week):
     '''Function (predictions):
-        This function sets a blank array with two values
+        This function sets a blank array with two zero values
         and then fills those values with streamflow
-        predications based on the AR model for the one-week
+        predictions from the AR model for the one-week
         and two-week forecasts.
 
         Parameters
         ----------
         last_week: one value, int
-                Input one value representing last_week's average streamflow
+                Input variable with one value representing
+                last week's average stream flow
         Returns
         ------
         prediction : two values, int
@@ -34,53 +35,55 @@ def predictions(last_week):
     return prediction
 
 
-# %%
-# Set file name and path
-filename = 'streamflow_week7.txt'
-filepath = os.path.join('data', filename)
-print(os.getcwd())
-print(filepath)
+# Task 1 - Set data input and develop dataframe
 
 # %%
-# Read the data into a pandas dataframe
+# Set file name and path
+
+filename = 'streamflow_week7.txt'
+filepath = os.path.join('data', filename)
+
+print("File path is:", os.getcwd())
+print("File name is:", filepath)
+
+# %%
+# Read the data into a pandas dataframe and
+# Expand the dates to year, month, day.
+# View format of dataframe data (print first 15 rows)
+
 data = pd.read_table(filepath, sep='\t', skiprows=30,
                      names=['agency_cd', 'site_no',
                             'datetime', 'flow', 'code'],
                      parse_dates=['datetime']
                      )
-
-# %%
-# Expand the dates to year month day
-# **corrected third line to ".day"
 data['year'] = pd.DatetimeIndex(data['datetime']).year
 data['month'] = pd.DatetimeIndex(data['datetime']).month
 data['day'] = pd.DatetimeIndex(data['datetime']).day
-data['dayofweek'] = pd.DatetimeIndex(data['datetime']).dayofweek
+
+print(data.head(15))
 
 # %%
-# View data format - data
-data.head(15)
+# Aggregate flow values to weekly and
+# view new flow_weekly dataframe format (print first 15 rows)
 
-# %%
-# Aggregate flow values to weekly
 flow_weekly = data.resample("W", on='datetime').mean()
 
-# Building the autoregressive model
+print(flow_weekly.head(15))
+
+
+# Task 2 - Build the Autoregressive (AR) model
+
 # %%
-# set up arrays for lagged timeseries
+# Set up arrays for lagged timeseries (two shifts)
+# [adds columns to flow_weekly dataframe with shifted flow values]
+
 flow_weekly['flow_tm1'] = flow_weekly['flow'].shift(1)
 flow_weekly['flow_tm2'] = flow_weekly['flow'].shift(2)
 
 # %%
-# View flow_weekly format
-# 1658 rows x 8 columns
-flow_weekly
-
-# %%
-# TEST 1
-# set training and test data sets for one-week forecast - 10/4 to 10/10
-# train period is September data only for 2017 - 2019
-# using last 10 weeks for test data
+# Set training and test data periods
+# [train period is September data only for 2017 - 2019]
+# [test [period is using last 10 weeks data]
 month1 = 9
 year_trainmin = 2017
 year_trainmax = 2019
@@ -91,29 +94,23 @@ train = flow_weekly[(flow_weekly["month"] == month1)
                                                                'flow_tm1',
                                                                'flow_tm2']]
 test = flow_weekly[1648:][['flow', 'flow_tm1', 'flow_tm2']]
-print("good luck!")
+
+print("Training data")
+print(train)
+
+print("Testing data")
+print(test)
+
+print("Good luck with your model!")
 
 # %%
-# view train period data
-train
-
-# %%
-# view test period data
-test
-
-# %%
-# Fit a linear regression model using sklearn
+# Fit a linear regression model using sklearn (using one shift)
+# Print coefficient of determination, intercept and slope for model
 x = train['flow_tm1'].values.reshape(-1, 1)
 y = train['flow'].values
-model = LinearRegression().fit(x, y)  # shortened starter code!
+model = LinearRegression().fit(x, y)
 
-# %%
-# r^2 values
-r_sq = model.score(x, y)
-print('coefficient of determination:', np.round(r_sq, 2))
-
-# %%
-# print the intercept and the slope
+print('coefficient of determination:', np.round(model.score(x, y), 2))
 print('intercept:', np.round(model.intercept_, 2))
 print('slope:', np.round(model.coef_, 2))
 
