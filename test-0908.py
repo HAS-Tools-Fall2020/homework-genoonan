@@ -1,4 +1,0 @@
-name = 'jill'
-
-type(name)
-

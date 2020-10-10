@@ -1,5 +1,10 @@
-#Gillian Noonan - Homework 6
-# Review the starter code provided to see how to build an autoregressive(AR) model. Then build your own model, you can modify the starter model in any way for example changing the number of time steps used for prediction or changing the testing and training data periods. The only rule is that you must make some modifications to make the model your own.
+# Gillian Noonan - Homework 6
+# Review the starter code provided to see how to build an autoregressive(AR)
+#  model. Then build your own model, you can modify the starter model in 
+# any way for example changing the number of time steps used for prediction
+#  or changing the testing and training data periods. 
+# The only rule is that you must make some modifications to make the model 
+# your own.
 
 # %%
 # Import modules
@@ -18,13 +23,13 @@ print(os.getcwd())
 print(filepath)
 
 # %%
-#Read the data into a pandas dataframe
-data=pd.read_table(filepath, sep = '\t', skiprows=30,
+# Read the data into a pandas dataframe
+data = pd.read_table(filepath, sep='\t', skiprows=30,
         names=['agency_cd', 'site_no', 'datetime', 'flow', 'code'],
         parse_dates=['datetime']
         )
 
-#%%
+# %%
 # Expand the dates to year month day 
 # **corrected third line to ".day"
 data['year'] = pd.DatetimeIndex(data['datetime']).year
@@ -32,27 +37,27 @@ data['month'] = pd.DatetimeIndex(data['datetime']).month
 data['day'] = pd.DatetimeIndex(data['datetime']).day
 data['dayofweek'] = pd.DatetimeIndex(data['datetime']).dayofweek
 
-#%%
+# %%
 # View data format - data
 data.head(15)
 
-#%%
+# %%
 # Aggregate flow values to weekly 
 flow_weekly = data.resample("W", on='datetime').mean()
 
 # Building the autoregressive model 
-#%%
-#set up arrays for lagged timeseries
+# %%
+# set up arrays for lagged timeseries
 flow_weekly['flow_tm1'] = flow_weekly['flow'].shift(1)
 flow_weekly['flow_tm2'] = flow_weekly['flow'].shift(2)
 
-#%%
+# %%
 # View flow_weekly format
 # 1658 rows x 8 columns
 flow_weekly
 
-#%%
-#TEST 1
+# %%
+# TEST 1
 # set training and test data sets for one-week forecast - 10/4 to 10/10
 # train period is September data only for 2017 - 2019
 # using last 10 weeks for test data
@@ -63,27 +68,27 @@ train = flow_weekly[(flow_weekly["month"]==month1) & (flow_weekly["year"] >=year
 test = flow_weekly[1648:][['flow', 'flow_tm1', 'flow_tm2']]
 print ("good luck!")
 
-#%%
+# %%
 # view train period data
 train
 
-#%%
+# %%
 # view test period data
 test
 
-#%%
+# %%
 # Fit a linear regression model using sklearn
 x=train['flow_tm1'].values.reshape(-1,1) 
 y=train['flow'].values
 model = LinearRegression().fit(x, y) #shortened starter code!
 
-#%%
+# %%
 # r^2 values
 r_sq = model.score(x, y)
 print('coefficient of determination:', np.round(r_sq,2))
 
-#%%
-#print the intercept and the slope 
+# %%
+# print the intercept and the slope 
 print('intercept:', np.round(model.intercept_, 2))
 print('slope:', np.round(model.coef_, 2))
 
