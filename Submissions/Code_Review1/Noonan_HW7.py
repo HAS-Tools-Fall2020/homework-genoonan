@@ -39,7 +39,6 @@ def predictions(last_week):
 
 # %%
 # Set file name and path
-
 filename = 'streamflow_week7.txt'
 filepath = os.path.join('data', filename)
 
@@ -50,7 +49,6 @@ print("File name is:", filepath)
 # Read the data into a pandas dataframe and
 # Expand the dates to year, month, day.
 # View format of dataframe data (print first 15 rows)
-
 data = pd.read_table(filepath, sep='\t', skiprows=30,
                      names=['agency_cd', 'site_no',
                             'datetime', 'flow', 'code'],
@@ -65,7 +63,6 @@ print(data.head(15))
 # %%
 # Aggregate flow values to weekly and
 # view new flow_weekly dataframe format (print first 15 rows)
-
 flow_weekly = data.resample("W", on='datetime').mean()
 
 print(flow_weekly.head(15))
@@ -76,7 +73,6 @@ print(flow_weekly.head(15))
 # %%
 # Set up arrays for lagged timeseries (two shifts)
 # [adds columns to flow_weekly dataframe with shifted flow values]
-
 flow_weekly['flow_tm1'] = flow_weekly['flow'].shift(1)
 flow_weekly['flow_tm2'] = flow_weekly['flow'].shift(2)
 
@@ -84,7 +80,6 @@ flow_weekly['flow_tm2'] = flow_weekly['flow'].shift(2)
 # Set training and test data periods
 # [train period is September data only for 2017 - 2019]
 # [test [period is using last 10 weeks data]
-
 month1 = 9
 year_trainmin = 2017
 year_trainmax = 2019
@@ -107,7 +102,6 @@ print("Good luck with your model!")
 # %%
 # Fit a linear regression model using sklearn (using one shift)
 # Print coefficient of determination, intercept and slope for model
-
 x = train['flow_tm1'].values.reshape(-1, 1)
 y = train['flow'].values
 model = LinearRegression().fit(x, y)
@@ -118,7 +112,6 @@ print('slope:', np.round(model.coef_, 2))
 
 # %%
 # Plot of training and testing data periods
-
 plt.style.use('ggplot')
 plt.rc('xtick', labelsize=8)
 plt.rc('ytick', labelsize=8)
@@ -139,13 +132,10 @@ fig.savefig('One-week(Test1).png')
 # Predict the model response for a given flow value
 # [passes the regressor as the argument and get the
 # corresponding predicted response]
-
-q_pred_train = model.predict(train['flow_tm1'].values.reshape(-1, 1))
-q_pred_test = model.predict(test['flow_tm1'].values.reshape(-1, 1))
-
-# %%
 # Plot comparison of simulated and observed flows
 # Save figure to working folder as PNG file
+q_pred_train = model.predict(train['flow_tm1'].values.reshape(-1, 1))
+q_pred_test = model.predict(test['flow_tm1'].values.reshape(-1, 1))
 
 fig, ax = plt.subplots()
 ax.plot(train['flow'], '-k', linewidth=2, label='observed')
@@ -162,7 +152,6 @@ fig.savefig('One-week(Test1)_Predict-vs-observed.png')
 # %%
 # Plot comparison of t vs t-1 flow
 # Save figure to working folder as PNG file
-
 fig, ax = plt.subplots()
 ax.scatter(train['flow_tm1'], train['flow'], marker='o',
            color='mediumvioletred', label='observations')
@@ -179,11 +168,9 @@ fig.savefig('One-week(Test1)_(t-vs-(t-1)).png')
 # WEEKLY FORECAST WEEK 7
 # ---------------------------
 # AR Model
-
 # %%
 # Predict one-week and two-week flow values
 #  using last week's average flow value and the AR model
-
 last_week_flow = np.mean(data.tail(7))['flow']
 one_two_flow = predictions(last_week_flow)
 
@@ -192,133 +179,83 @@ print("The one-week and two-week predicted"
       " flow values from the AR model are:", one_two_flow)
 
 # Jill's Code
-
 # %%
 # One-week forecast
-# Look at statistics for last 7 days and
-# use mean to forecast the one-week flow
+# Input dates to grab and print historical min for one-week forecast period
+month = 10
+day_more = 11
+day_less = 17
 
-data_weekly = data.tail(7)
-print("The one-week flow prediction using Jill's code is:",
-      np.mean(data_weekly)["flow"])
-
-# Save table of statistics as PNG for markdown
-df = data_weekly[["flow"]].describe()
-dfi.export(df, "Last7days-stats.png")
+hist_min = data[(data["month"] == month)
+                & (data["day"] >= day_more) & (data["day"] <= day_less)]
+print("The historical minimum flow for the week of Oct. 11-17 is",
+      hist_min["flow"].min(), "cfs")
 
 # %%
-# looks at prior two week stats
+# # Look at statistics for last 7 days and
+# Save table of statistics as PNG for markdown
+data_weekly = data.tail(7)
+df1 = data_weekly[["flow"]].describe()
+print("Last week's flow statistics")
+print(df1)
+dfi.export(df1, "Last7days-stats.png")
+
+# %%
+# Use mean value to forecast the one-week flow
+predict_one = np.mean(data_weekly)["flow"]
+print("The one-week flow prediction using Jill's code is:", predict_one)
+
+# %%
+# Two-week forecast
+# Look at statistics for last 14 days and
+# Save table of statistics as PNG for markdown
 data_two_wks = data.tail(14)
 df2 = data_two_wks[["flow"]].describe()
 print(df2)
 dfi.export(df2, "Last14days-stats.png")
 
 # %%
-# look at trend over last two weeks
+# Look at visual trend over last two weeks
+# Save plot for markdown
 fig, ax = plt.subplots()
 ax.plot(data_two_wks.datetime, data_two_wks.flow)
 ax.set(title="Two-week flow trend")
 ax.set(xlabel='Date', ylabel='Daily Flow (cfs)')
 plt.show()
+
 fig.savefig('Two-week-Trend_(Old-Code).png')
 
 # %%
-# seasonal wk7 historical min
-month = 10
-day_more = 4
-day_less = 10
-
-data_two_week = data[(data["month"] == month) & (data["day"] >= day_more)
-                     & (data["day"] <= day_less)]
-data_two_week["flow"].min()
+# Calculate absolute percent change in last two weeks
+min_two = np.min(data_two_wks['flow'])
+max_two = np.max(data_two_wks['flow'])
+mean_two = np.mean(data_two_wks['flow'])
+perc_chng = ((max_two - min_two)/min_two)*100
+print("Minimum value in last two weeks was", min_two)
+print("Maximum value in last two weeks was", max_two)
+print("mean value in last two weeks was", mean_two)
+print("Maximum flow flucuation in past two weeks was",
+      round(perc_chng, 2), "percent.")
+# %%
+one_std = np.std(data_two_wks['flow'])
+print(one_std)
 
 # %%
-# seasonal wk8 historical min
-month = 10
-day_more = 11
-day_less = 17
-
-data_two_week = data[(data["month"] == month)
-                     & (data["day"] >= day_more) & (data["day"] <= day_less)]
-data_two_week["flow"].min()
-
+first_val = data_two_wks.head(1)
+last_val = data_two_wks.tail(1)
+print(first_val)
+print(last_val)
 # %%
-# seasonal wk9 historical min
-month = 10
-day_more = 18
-day_less = 24
-
-data_two_week = data[(data["month"] == month)
-                     & (data["day"] >= day_more) & (data["day"] <= day_less)]
-data_two_week["flow"].min()
-
+#
+val_1 = 58.1
+val_2 = 63.4
+perc_chng_total = ((val_2 - val_1)/val_1)*100
+print("Overall flow flucuation in past two weeks was",
+      round(perc_chng_total, 2), "percent.")
 # %%
-# seasonal wk10 historical min
-month = 10
-day_more = 25
-day_less = 31
-
-data_two_week = data[(data["month"] == month)
-                     & (data["day"] >= day_more) & (data["day"] <= day_less)]
-data_two_week["flow"].min()
-
-# %%
-# seasonal wk11 historical min
-month = 11
-day_more = 1
-day_less = 7
-
-data_two_week = data[(data["month"] == month)
-                     & (data["day"] >= day_more) & (data["day"] <= day_less)]
-data_two_week["flow"].min()
-
-# %%
-# seasonal wk12 historical min
-month = 11
-day_more = 8
-day_less = 14
-
-data_two_week = data[(data["month"] == month)
-                     & (data["day"] >= day_more) & (data["day"] <= day_less)]
-data_two_week["flow"].min()
-
-# %%
-# seasonal wk13 historical min
-month = 11
-day_more = 15
-day_less = 21
-
-data_two_week = data[(data["month"] == month)
-                     & (data["day"] >= day_more) & (data["day"] <= day_less)]
-data_two_week["flow"].min()
-
-# %%
-# seasonal wk14 historical min
-month = 11
-day_more = 22
-day_less = 28
-
-data_two_week = data[(data["month"] == month)
-                     & (data["day"] >= day_more) & (data["day"] <= day_less)]
-data_two_week["flow"].min()
-
-# %%
-# seasonal wk15 historical min
-month1 = 11
-day1 = 29
-month2 = 12
-day2 = 5
-data_seasonal_6 = data[((data["month"] == month1)
-                        & (data["day"] >= day1)) | ((data["month"] == month2)
-                                                    & (data["day"] <= day2))]
-data_seasonal_6["flow"].min()
-
-# %%
-# seasonal wk15 historical min
-month = 12
-day_more = 6
-day_less = 12
-
-data_two_week = data[(data["month"] == month)
-                     & (data["day"] >= day_more) & (data["day"] <= day_less)]
-data_two_week["flow"].min()
+if perc_chng_total > 0:
+    print("The two-week flow prediction using Jill's code is",
+          (predict_one + (predict_one * (perc_chng_total/100))))
+elif perc_chng_total < 0:
+    print("The two-week flow prediction using Jill's code is",
+          (predict_one - (predict_one * (perc_chng_total/100))))
