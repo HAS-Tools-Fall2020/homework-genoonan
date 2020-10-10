@@ -5,7 +5,7 @@ I hope you found my code wildly impressive (just kidding, I am still a newbie at
 I downloaded data for the "streamflow_wk7.txt" file on Friday 10/9/20.  If you want to up date to add one additional day, feel free, but I think it will be fine with the data as it stands so save yourself the extra work!
 
 ### Instructions for submitting my forecast:
-- You will need to install a new package (dataframe_image) that I use to save tables to images. (you won't need it for the forecast, but might need it for the code to run).  It is a package to embed pandas DataFrames as images when converting to pdf or markdown documents.   Hope that you can find it useful for your own coding and markdowns. You do this via 'pip install dataframe_image' in GitBash.  Make sure to conda activate your hastools first.  Any questions on this part - send me an email: genoonan@arizona.edu
+
   - Run code block at top of file to import modules and define functions.  
 
   - For Task 1:
