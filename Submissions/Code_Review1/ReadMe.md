@@ -5,7 +5,7 @@ I hope you found my code wildly impressive (just kidding, I am still a newbie at
 I downloaded data for the "streamflow_wk7.txt" file on Friday 10/9/20.  If you want to up date to add one additional day, feel free, but I think it will be fine with the data as it stands so save yourself the extra work!
 
 ### Instructions for submitting my forecast:
-- You will need to install a new package (dataframe_image) that I use to save tables to images. (you won't need it for the forecast, but might need it for the code to run).  It is a package to embed pandas DataFrames as images when converting to pdf or markdown documents.   Hope that you can find it useful for your own coding and markdowns. You do this via 'pip install dataframe_image' in GitBash.  Make sure to conda activate your hastools first.  Any questions on this part - send me an email: genoonan@arizona.edu
+
   - Run code block at top of file to import modules and define functions.  
 
   - For Task 1:
@@ -32,26 +32,31 @@ I downloaded data for the "streamflow_wk7.txt" file on Friday 10/9/20.  If you w
     - The final 'if statement' code block will output the two-week flow forecast value  [JILL-2WK].  
     - Enter these values into table 1 below and that's it!
 
+# Written Assessment
+
+The first thing I noticed is your print statements were very informative I will have to steal that idea for the next time I am having someone else run my scripts. Next, your graphs are nice and easy to understand. The variables were well explained instead of using x for instance you would use last_week_flow or something that would describe what this variable is. My to suggestions are minor but would save you typing extra characters. (1) on line 235 and 264 you type in values manually where you could again state that first_val2 = data_two_wks.head(1) that way you can just run the script w/o making change every week if you wanted, just by updating the week#. (2) on lines 246 and 283 there is and (if(condition): elif (condition):) statement you can simply use (if (condition): else:). else will run if conditions you defined are not met, this change is very minor though but would save you from accidentally missing a value for instance if you put 0 into your code it would return an error (although 0.00 % change is likely impossible so I don't think it would ever matter in this case). Altogether your code was great and easy to understand thanks Jill. Also, great job following PEP 8 standards.
+
+# Forecast and Numerical Assessment
 
 Table 1: One- and two-week forecast submission values  
 
 |   | One-week Forecast  | Two-week Forecast  |
 |--:|---|---|
-| Jill's Code  | JILL-1WK HERE  | JILL-2WK HERE  |
+| Jill's Code  | 72.3  | 67.3  |
 
 Table 2: Regression-based one- and two-week forecast values  
 
 |   | One-week Forecast  | Two-week Forecast  |
 |--:|---|---|
-| AR Model  | AR-1WK HERE  | AR-2WK HERE  |
+| AR Model  | 75.53  | 85.16  |
 
 Table 3: Code Rubric Scoring Table   
 
 | Criteria  | 3 points   | 2 points  | 1 point  |
 |--:|---|---|---|
-| Readability  |   |   |   |
-| Style  |   |   |   |
-| Code Awesome  |   |   |   |  
+| Readability  |  3 |   |   |
+| Style  | 3  |   |   |
+| Code Awesome  | 3  |   |   |  
 
 ![](assets/ReadMe-ff0ecab3.png)
 
