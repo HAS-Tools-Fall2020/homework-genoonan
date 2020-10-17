@@ -237,7 +237,7 @@ plt.show()
 fig.savefig('Two-week-Trend_(Old-Code).png')
 
 # %%
-# Get one-week mean value and two-week mean values
+# Get one-week and two-week mean values
 
 mean_1wk = round(np.mean(data_weekly)["flow"], 2)
 print("The mean flow for the last 7 days is:", mean_1wk)
@@ -246,14 +246,13 @@ mean_2wk = round(np.mean(data_two_wks)["flow"], 2)
 print("The mean flow for the last 14 days is:", mean_2wk)
 
 # %%
-# Get beginning and end flow values for week
+# Get beginning and end flow values for one-week and two-week periods
 print("One-week Beginning and End Flow Values")
 first_val1 = data_weekly.flow.iloc[0]
 last_val1 = data_weekly.flow.iloc[-1]
 print(first_val1)
 print(last_val1)
 
-# Get beginning and end flow values for two-week period
 print("Two-week Beginning and End Flow Values")
 first_val2 = data_two_wks.flow.iloc[0]
 last_val2 = data_two_wks.flow.iloc[-1]
@@ -264,16 +263,16 @@ print(last_val2)
 # Overall flow flucuation for last 7 and 14 days
 # Calculate flucuation from start to end of last 7 days
 perc_chng_total_1wk = ((last_val1 - first_val1)/first_val1)*100
-print("Overall flow flucuation in past 7 days was",
+print("Overall flow fluctuation in past 7 days was",
       round(perc_chng_total_1wk, 2), "percent.")
 
 # Calculate flucuation from start to end of last 14 days
 perc_chng_total_2wk = ((last_val2 - first_val2)/first_val2)*100
-print("Overall flow flucuation in past 14 days was",
+print("Overall flow fluctuation in past 14 days was",
       round(perc_chng_total_2wk, 2), "percent.")
 
 # %%
-# Calculate and predict one-week and two-week forecast values (Jill's Code)
+# Trend-based prediction for one-week and two-week forecast values (Jill's Code)
 # Based on percent change total from above code block.  If trend is upward,
 # forecast a percentage higher, if trend is downward, forecast a
 # percentage lower
@@ -288,11 +287,11 @@ else:
 
 if perc_chng_total_2wk > 0:
     Jill_2wk = mean_2wk + (mean_2wk * (perc_chng_total_2wk/100))
-    print("The one-week flow prediction using Jill's code"
+    print("The two-week flow prediction using Jill's code"
           " [JILL-2WK] is", round(Jill_2wk, 1), "cfs")
 else:
     Jill_2wk = mean_2wk - (mean_2wk * (perc_chng_total_2wk/100))
-    print("The one-week flow prediction using Jill's code"
+    print("The two-week flow prediction using Jill's code"
           " [JILL-2WK] is", round(Jill_2wk, 1), "cfs")
 
 # %%
