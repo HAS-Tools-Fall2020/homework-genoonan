@@ -247,33 +247,28 @@ print("The mean flow for the last 14 days is:", mean_2wk)
 
 # %%
 # Get beginning and end flow values for week
-print("One-week Beginning and End Values")
-first_val1 = data_weekly.head(1)
-last_val1 = data_weekly.tail(1)
+print("One-week Beginning and End Flow Values")
+first_val1 = data_weekly.flow.iloc[0]
+last_val1 = data_weekly.flow.iloc[-1]
 print(first_val1)
 print(last_val1)
 
 # Get beginning and end flow values for two-week period
-print("Two-week Beginning and End Values")
-first_val2 = data_two_wks.head(1)
-last_val2 = data_two_wks.tail(1)
+print("Two-week Beginning and End Flow Values")
+first_val2 = data_two_wks.flow.iloc[0]
+last_val2 = data_two_wks.flow.iloc[-1]
 print(first_val2)
 print(last_val2)
 
 # %%
 # Overall flow flucuation for last 7 and 14 days
 # Calculate flucuation from start to end of last 7 days
-val_1wk1 = int(first_val1["flow"])
-val_1wk2 = int(last_val1["flow"])
-
-perc_chng_total_1wk = ((val_1wk2 - val_1wk1)/val_1wk1)*100
+perc_chng_total_1wk = ((last_val1 - first_val1)/first_val1)*100
 print("Overall flow flucuation in past 7 days was",
       round(perc_chng_total_1wk, 2), "percent.")
 
 # Calculate flucuation from start to end of last 14 days
-val_2wk1 = int(first_val2["flow"])
-val_2wk2 = int(last_val2["flow"])
-perc_chng_total_2wk = ((val_2wk2 - val_2wk1)/val_2wk1)*100
+perc_chng_total_2wk = ((last_val2 - first_val2)/first_val2)*100
 print("Overall flow flucuation in past 14 days was",
       round(perc_chng_total_2wk, 2), "percent.")
 
