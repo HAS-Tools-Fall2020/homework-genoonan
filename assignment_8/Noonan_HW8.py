@@ -222,9 +222,7 @@ fig.savefig('One-week(Test1)_(t-vs-(t-1)).png')
 last_week_flow = np.mean(data.tail(7))['flow']
 one_two_flow = np.round(predictions(last_week_flow), 1)
 
-print("Last week's average flow (cfs) was", last_week_flow)
-print("The one-week and two-week predicted"
-      " flow values from the AR model are [AR-1WK, AR-2WK]:", one_two_flow)
+print("Using last week's average flow of" , last_week_flow, "the one-week and two-week predicted flow values from the AR model are [AR-1WK, AR-2WK]:", one_two_flow)
 
 # Jill's Code forecast
 # %%
