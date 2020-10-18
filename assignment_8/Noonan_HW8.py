@@ -1,4 +1,4 @@
-# Gillian Noonan - Homework 7
+# Gillian Noonan - Homework 8
 
 # %%
 # Import modules and define functions used in this code
@@ -34,6 +34,46 @@ def predictions(last_week):
     prediction[1] = model.intercept_ + model.coef_ * prediction[0]
     return prediction
 
+def weekly_min(month1, day_more, day_less):
+    '''Function (weekly_min):
+        This function pulls values out of the data_week_min dataframe which
+        is aggregated by weekly minimum value.  It then pulls the minimum historical 
+        value from the weekly minimum values for the given
+        month, day time period.
+
+        Parameters
+        ----------
+        month1: int
+                Input variable with one value representing
+                first month of the time window
+        day_more: int
+                Input variable with one value representing
+                first day of the time window
+        day_less: int
+                Input variable with one value representing
+                first day of the time window
+        Returns
+        ------
+        wk_min : dataframe
+                Outputs a dataframe with only data for specified time period
+                and prints the output minimum flow value
+        '''
+    wk_min = data_week_min[(data_week_min.index.month == month1)
+                      & (data_week_min.index.day >= day_more) 
+                      & (data_week_min.index.day <= day_less)] 
+
+    print("")
+    print("Plotted historical weekly minimum flows for ", month1, "-", day_more,
+            "to", month1, "-", day_less)
+    wk_min.reset_index().plot(x="datetime",
+                          y="flow",
+                          title="Historical Flow Weekly Minimums",
+                          kind="scatter")
+    plt.show()
+
+    print("The overall historical weekly minimum flow for ", month1, "-", day_more,
+            "to", month1, "-", day_less, " is",
+            wk_min.flow.min(), "cfs")
 
 print("successful import")
 
@@ -60,6 +100,7 @@ data = pd.read_table(filepath, sep='\t', skiprows=30,
 data['year'] = pd.DatetimeIndex(data['datetime']).year
 data['month'] = pd.DatetimeIndex(data['datetime']).month
 data['day'] = pd.DatetimeIndex(data['datetime']).day
+data['dayofweek'] = pd.DatetimeIndex(data['datetime']).dayofweek
 
 print(data.head(15))
 
@@ -74,11 +115,11 @@ print(flow_weekly.head(15))
 # Task 2 - Build the Autoregressive (AR) model
 
 # %%
-# Set up arrays for lagged timeseries (two shifts)
+# Set up arrays for lagged timeseries (one shift)
 # [adds columns to flow_weekly dataframe with shifted flow values]
 # View new flow_weekly dataframe format (print first 15 rows)
 flow_weekly['flow_tm1'] = flow_weekly['flow'].shift(1)
-flow_weekly['flow_tm2'] = flow_weekly['flow'].shift(2)
+
 
 print(flow_weekly.head(15))
 
@@ -93,9 +134,9 @@ train = flow_weekly[(flow_weekly["month"] == month1)
                     & (flow_weekly["year"] >= year_trainmin) &
                       (flow_weekly["year"] <= year_trainmax)][['month',
                                                                'flow',
-                                                               'flow_tm1',
-                                                               'flow_tm2']]
-test = flow_weekly[1648:][['flow', 'flow_tm1', 'flow_tm2']]
+                                                               'flow_tm1'
+                                                               ]]
+test = flow_weekly[1648:][['flow', 'flow_tm1']]
 
 print("Training data")
 print(train)
@@ -171,7 +212,7 @@ fig.savefig('One-week(Test1)_(t-vs-(t-1)).png')
 
 # Task 4 - Predict Flow with Autoregressive (AR) model
 
-# WEEKLY FORECAST WEEK 8
+# WEEKLY FORECAST
 # ---------------------------
 
 # AR Model
@@ -294,4 +335,81 @@ else:
     print("The two-week flow prediction using Jill's code"
           " [JILL-2WK] is", round(Jill_2wk, 1), "cfs")
 
+
+
+
+# LONGTERM FORECAST [Week 11-15] (historical minimums)
+# ---------------------------
 # %%
+# Aggregate flow values to weekly MINIMUM
+data_week_min = data.resample("W", on='datetime').min()
+data_week_min = data_week_min.set_index("datetime")
+data_week_min
+
+# %%
+# Plot historical weekly flows for each forecast week
+# Use function 'weekly_min' to grab historical minimum flow
+# Get overall minumum of these flows for all time
+# Wk11 historical min
+month1 = 11
+day_more = 1
+day_less = 7
+
+weekly_min(month1, day_more, day_less)
+
+# Wk12 historical min
+month1 = 11
+day_more = 8
+day_less = 14
+
+weekly_min(month1, day_more, day_less)
+
+# Wk13 historical min
+month1 = 11
+day_more = 15
+day_less = 21
+
+weekly_min(month1, day_more, day_less) 
+
+# Wk14 historical min
+month1 = 11
+day_more = 22
+day_less = 28
+
+weekly_min(month1, day_more, day_less) 
+
+# Wk15 historical min (spans two months so does not use function)
+month1 = 11
+day1 = 29
+month2 = 12
+day2 = 5
+
+week15_min = data_week_min[(data_week_min.index.month == month1)
+                      & (data_week_min.index.day >= day1) 
+                      | (data_week_min.index.month == month2) 
+                      & (data_week_min.index.day <= day2)] 
+
+print("")
+print("Plotted historical weekly minimum flows for ", month1, "-", day1,
+            "to", month2, "-", day2)
+week15_min.reset_index().plot(x="datetime",
+                          y="flow",
+                          title="Historical Flow Weekly Minimums",
+                          kind="scatter")
+plt.show()
+
+print("The overall historical weekly minimum flow for ", month1, "-", day1,
+      "to", month2, "-", day2, " is",
+      week15_min.flow.min(), "cfs")
+
+# Wk16 historical min
+month1 = 12
+day_more = 6
+day_less = 12
+
+weekly_min(month1, day_more, day_less) 
+
+# %%
+
+
+
