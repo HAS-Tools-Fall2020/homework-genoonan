@@ -40,7 +40,7 @@ Figure 4
 
 - Seeing as I have been using historical minimums mostly all along for my seasonal forecasting (since we are in such a low flow year), I opted to continue with this forecast method since both of my other models are forecasting very close to historical minimums.  HOWEVER, I did change the way I did it to complete the weekly requirement of time series work.  I previously was simply pulling the data out of the dataframe by month and day for the weekly periods, and then calculating the min flow value.  For this week's seasonal forecast - I forecast all upcoming dates (starting at Week 11 since previous weeks have already passed or were forecast via the one- and two-week forecasts above) using a new dataframe that I created where I aggregated the data by weekly flow min.   The numbers for historical flow min change just a bit from my previous method of exact day pull out since the weekly binning goes Monday to Sunday, whereas our forecast weeks go Sunday to Saturday.  Still very close and good enough for government work!  I also played around with plotting and plotted the historical flow min for each weekly period over the years in a scatter plot.   This provided an interesting visual perspective for where our overall weekly minimum flow value fit in over the last 30 years.  An example of that plot type is shown in Figure 5.  
 
-*Figure 5. Historical minimum flows for Week 11*
+*Figure 5. Historical minimum flows for Week 11*  
 ![](assets/Noonan_HW8-881f4d48.png)
 
 
@@ -48,7 +48,7 @@ Figure 4
 - My peer evaluation identified a couple of things that were helpful for my learning.  First, it was nice to hear compliments from a peer on things I was doing well.   Good reassurance.  Second, it was useful to get another's perspective on how I could be doing things better.  For example - I was using an if/elif statement and my reviewer pointed out that it should be an if/else statment else my code would fail if the percent change was 0 (highly unlikely, but not impossible).  So I changed that.   When we had out "face-to-face" review in class time, he also helped me work towards a solution to pull out the values I was entering manually for last week's average flow.   This was crucial to having the code run autonomously for this week's assignment.
 
 
-4) Describe the part of your script that you are most proud of and why.  
+*4) Describe the part of your script that you are most proud of and why.*  
 - Honestly I feel like this has been my biggest improvement week yet.   I could feel the difference in the way I was writing the code where it felt more like "writing" with flowing ease versus trying to fit pieces of a puzzle together.  I had a lot of moments of new understanding that seemed to click this week and added some elements that were a step up for my code, including;  an if/else conditional statement for my calculated forecast output, an extra function(!), some indexing and time series elements, and a lot of little touches that improved the overall flow of the output (like adding, organizing and refining 'print' statements.)
 
 *5) Other notes:*
