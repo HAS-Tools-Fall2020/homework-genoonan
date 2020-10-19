@@ -38,7 +38,8 @@ def predictions(last_week):
 def weekly_min(month1, day_more, day_less):
     '''Function (weekly_min):
         This function pulls values out of the data_week_min dataframe which
-        is aggregated by weekly minimum value.  It then pulls the
+        is aggregated by weekly minimum value.  The historical minimums are
+        plotted over the data time period.  It then pulls the
         minimum historical value from the weekly minimum values
         for the given month, day time period.
 
@@ -78,7 +79,6 @@ def weekly_min(month1, day_more, day_less):
 
 
 print("successful import")
-
 
 # Task 1 - Set data input and develop dataframe
 
