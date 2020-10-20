@@ -10,7 +10,7 @@ from sklearn.linear_model import LinearRegression
 import datetime
 import dataframe_image as dfi
 
-
+# LC - nice work with doc strings!
 def predictions(last_week):
     '''Function (predictions):
         This function sets a blank array with two zero values
@@ -129,6 +129,7 @@ print(flow_weekly.head(15))
 # Set training and test data periods
 # [train period is September data only for 2017 - 2019]
 # [test [period is using last 10 weeks data]
+# Nice work defining these as variables -- you might consider putting these at the top
 month1 = 9
 year_trainmin = 2017
 year_trainmax = 2019
@@ -242,6 +243,8 @@ print("The historical minimum flow for the week of", month, "-", day_more,
       "to", month, "-", day_less, " is",
       hist_min["flow"].min(), "cfs")
 
+# LC - These variables might be redundant with the ones above. 
+# Instead you could calcualte these based on the ones above. 
 month = 10
 day_more = 25
 day_less = 31
@@ -282,6 +285,11 @@ fig.savefig('Two-week-Trend.png')
 # %%
 # Get one-week and two-week mean values
 
+# LC - I like have done this its very neatly setup
+# I wonder though if you could reduce dupliation by making this 
+# a 2 column dataframe and then you can just do all of your print statments 
+# etc in the following blocx for both at once rather than repeating twice. 
+
 mean_1wk = round(np.mean(data_weekly)["flow"], 2)
 print("The mean flow for the last 7 days is:", mean_1wk)
 
@@ -320,6 +328,7 @@ print("Overall flow fluctuation in past 14 days was",
 # Based on percent change total from above code block.  If trend is upward,
 # forecast a percentage higher, if trend is downward, forecast a
 # percentage lower
+# LC - nice if else logic!
 if perc_chng_total_1wk > 0:
     Jill_1wk = mean_1wk + (mean_1wk * (perc_chng_total_1wk/100))
     print("The one-week flow prediction using Jill's code"
@@ -351,6 +360,10 @@ data_week_min
 # Use function 'weekly_min' to grab historical minimum flow
 # Get overall minumum of these flows for all time
 # Wk11 historical min
+
+# LC - You could consilidate this into a loop and just have the day_more/day_less
+# count up by 7. The tricky part is that you need to check when you have to 
+# increment the month by one.  
 month1 = 11
 day_more = 1
 day_less = 7

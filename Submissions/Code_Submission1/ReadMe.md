@@ -3,8 +3,15 @@
 ### 10/19/20
 ___
 
-### Grade
+#### Grade 
+ - 6/6  Great  job!
+ - Readability: 3
+ - Style: 3 
+ - Code: 2
 
+ - Really glad to hear that you had a good week, your code looks great!
+ - Nice work on your code I like your use of functions and its really neat and easy to followin 
+ - I made some suggestions for where you can condense. 
 
 ---
 ### Week 8 Questions
