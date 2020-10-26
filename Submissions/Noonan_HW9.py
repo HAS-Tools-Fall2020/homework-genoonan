@@ -107,7 +107,7 @@ precip = daymet_precipDict['data']['prcp (mm/day)']
 precipdata = pd.DataFrame({'year': year,
                      'yearday': yearday, "precip": precip})
 precipdata.set_index('year')
-precipdata.tail()
+precipdata.head()
 
 # %%
 # Convert to datetime and add column
@@ -116,18 +116,25 @@ precipdata['datetime'] = datetime
 precipdata.set_index('datetime')
 
 # %%
+# Get year month day for precip data
+precipdata['year'] = pd.DatetimeIndex(precipdata['datetime']).year
+precipdata['month'] = pd.DatetimeIndex(precipdata['datetime']).month
+precipdata['day'] = pd.DatetimeIndex(precipdata['datetime']).day
+precipdata
+# %%
 # aggregate weekly mean precip
 precip_weekly = precipdata.resample("W", on='datetime').mean()
-precip_weekly[["precip"]]
+precip_weekly[["precip", 'year', 'month', 'day']]
 
 # %%
+# Looking at just 2019 precip
 precipdata_2019 = precipdata[precipdata.year == 2019]
-precipdata_2019
+precipdata_2019[["precip"]]
 
 # %%
 # Plot of precip data
 # Save figure to working folder as PNG file
-precipdata.plot.scatter(x="year",
+precipdata.plot.scatter(x="datetime",
                               y="precip",
                               title="Historical Precipitation")
 plt.show()
@@ -139,7 +146,12 @@ precipdata_2019.plot.scatter(x="datetime",
                               y="precip",
                               title="2019 Precipitation")
 plt.show()
-      
+
+
+# %%
+
+
+
 #/////
 # %%
 # Streamflow Data
@@ -152,7 +164,7 @@ plt.show()
 
 site = '09506000'
 start = '1989-01-01'
-end = '2020-10-23'
+end = '2020-10-24'
 url = "https://waterdata.usgs.gov/nwis/dv?cb_00060=on&format=rdb&site_no=" + site + \
       "&referred_module=sw&period=&begin_date=" + start + "&end_date=" + end
 data = pd.read_table(url, skiprows=30, names=['agency_cd', 'site_no',
@@ -171,7 +183,7 @@ print(data.head(15))
 # View new flow_weekly dataframe format (print first 15 rows)
 flow_weekly = data.resample("W", on='datetime').mean()
 
-print(flow_weekly.head(15))
+print(flow_weekly.head(100))
 
 
 # WEEKLY FORECAST
@@ -359,4 +371,21 @@ day_less = 12
 
 weekly_min(month1, day_more, day_less)
 
+# ////Playing with Plotting
 # %%
+precipdata.plot.scatter(x='datetime', y='precip', subplots = True)
+
+# %%
+precipdata.shape
+# %%
+week15_min.shape
+# %%
+month1 = 11
+day1 = 29
+month2 = 12
+day2 = 5
+
+week15_precip = precip_weekly[(data_week_min.index.month == month1)
+                           & (data_week_min.index.day >= day1)
+                           | (data_week_min.index.month == month2)
+                           & (data_week_min.index.day <= day2)]
