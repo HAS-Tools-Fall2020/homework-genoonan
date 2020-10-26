@@ -1,15 +1,15 @@
 # Gillian Noonan - Homework 9
 
 # %%
-import os
+# Import necessary packages and functions
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-import datetime
 import dataframe_image as dfi
-import json 
+import json
 import urllib.request as req
 import urllib
+
 
 def weekly_min(month1, day_more, day_less):
     '''Function (weekly_min):
@@ -56,104 +56,130 @@ def weekly_min(month1, day_more, day_less):
 
 print("successful import")
 
-# %%  NEED TO ADD THIS
-# This is the base url that will be the start our final url
-# base_url = "http://api.mesowest.net/v2/stations/timeseries"
-
-# # Specific arguments for the data that we want
-# args = {
-#     'start': '199701010000',
-#     'end': '202009300000',
-#     'obtimezone': 'UTC',
-#     'vars': 'air_temp',
-#     'stids': 'QVDA3',
-#     'units': 'temp|F,precip|mm',
-#     'token': mytoken} 
-
-# # Takes your arguments and paste them together
-# # into a string for the api
-# # (Note you could also do this by hand, but this is better)
-# apiString = urllib.parse.urlencode(args)
-# print(apiString)
-
-# # add the API string to the base_url
-# fullUrl = base_url + '?' + apiString
-# print(fullUrl)
+# ////////
+# Precip Data
 # %%
-#Jill daymet (daymet.ornl.gov/single-pixel/)
-url = "https://daymet.ornl.gov/single-pixel/api/data?lat=34.448&lon="\
-      "-111.789&vars=dayl,prcp&start=1989-01-01&"\
-            "end=2020-10-22&format=json"
-daymet_precip = req.urlopen(url)
+# Grab daymet precip data
+# (daymet.ornl.gov/single-pixel/)
+# Grab data using base URL and API strings
+base_url1 = "https://daymet.ornl.gov/single-pixel/api/data"
+
+args1 = {
+    'lat': '34.448',
+    'lon': '-111.789',
+    'vars': 'prcp',
+    'start': '1989-01-01',
+    'end': '2020-10-24',
+    }
+apiString1 = urllib.parse.urlencode(args1)
+
+fullUrl1 = base_url1 + '?' + apiString1 + "&format=json"
+print(fullUrl1)
+daymet_precip = req.urlopen(fullUrl1)
 
 # %%
-# Look at the keys and use this to grab out the data
+# Look at the keys for json download
 daymet_precipDict = json.loads(daymet_precip.read())
 daymet_precipDict.keys()
 
 # %%
+# Look at the type for json download
+type(daymet_precipDict)
+
+# %%
+# Look at the type for key "data"
 type(daymet_precipDict['data'])
 
 # %%
+# Look at the keys for dict "data"
 daymet_precipDict['data'].keys()
 
 # %%
+# Make a dataframe from the data
+
 year = daymet_precipDict['data']['year']
 yearday = daymet_precipDict['data']['yday']
 precip = daymet_precipDict['data']['prcp (mm/day)']
 
-# %%
-#make a dataframe from the data
 precipdata = pd.DataFrame({'year': year,
-                     'yearday': yearday, "precip": precip})
+                           'yearday': yearday, "precip": precip})
 precipdata.set_index('year')
 precipdata.head()
 
 # %%
 # Convert to datetime and add column
-datetime = pd.to_datetime(precipdata['year'] * 1000 + precipdata['yearday'], format='%Y%j')
-precipdata['datetime'] = datetime
+date_time = pd.to_datetime(precipdata['year'] * 1000 +
+                           precipdata['yearday'], format='%Y%j')
+precipdata['datetime'] = date_time
 precipdata.set_index('datetime')
 
 # %%
-# Get year month day for precip data
+# Get year month day for precipdata
 precipdata['year'] = pd.DatetimeIndex(precipdata['datetime']).year
 precipdata['month'] = pd.DatetimeIndex(precipdata['datetime']).month
 precipdata['day'] = pd.DatetimeIndex(precipdata['datetime']).day
 precipdata
+
 # %%
-# aggregate weekly mean precip
+# Aggregate to weekly mean precip (precip_weekly)
 precip_weekly = precipdata.resample("W", on='datetime').mean()
-precip_weekly[["precip", 'year', 'month', 'day']]
+precip_weekly[["precip"]]
 
 # %%
 # Looking at just 2019 precip
 precipdata_2019 = precipdata[precipdata.year == 2019]
-precipdata_2019[["precip"]]
+precipdata_2019
 
 # %%
-# Plot of precip data
-# Save figure to working folder as PNG file
+# Plot of all historical precip data
 precipdata.plot.scatter(x="datetime",
-                              y="precip",
-                              title="Historical Precipitation")
+                        y="precip",
+                        title="Historical Precipitation")
 plt.show()
 
 # %%
-# Plot of 2019 precip data
-# Save figure to working folder as PNG file
+# Plot of all 2019 precip data
 precipdata_2019.plot.scatter(x="datetime",
-                              y="precip",
-                              title="2019 Precipitation")
+                             y="precip",
+                             title="2019 Precipitation")
+plt.show()
+
+# %%
+# Look at average historical precip for Week 10
+month1 = 10
+day_more = 25
+day_less = 31
+
+wk10_min = precip_weekly[(precip_weekly.index.month == month1)
+                         & (precip_weekly.index.day >= day_more)
+                         & (precip_weekly.index.day <= day_less)]
+print("Plotted historical weekly average precip for ", month1, "-",
+      day_more, "to", month1, "-", day_less)
+wk10_min.reset_index().plot(x="datetime",
+                            y="precip",
+                            title="Historical Precip Weekly Average",
+                            kind="scatter")
+plt.show()
+
+# %%
+# Look at average historical precip for Week 11
+month1 = 11
+day_more = 1
+day_less = 7
+
+wk11_min = precip_weekly[(precip_weekly.index.month == month1)
+                         & (precip_weekly.index.day >= day_more)
+                         & (precip_weekly.index.day <= day_less)]
+print("Plotted historical weekly average precip for ", month1, "-",
+      day_more, "to", month1, "-", day_less)
+wk11_min.reset_index().plot(x="datetime",
+                            y="precip",
+                            title="Historical Precip Weekly Average",
+                            kind="scatter")
 plt.show()
 
 
-# %%
-
-
-
-#/////
-# %%
+# ////////
 # Streamflow Data
 # Task 1 - Set data input and develop dataframe
 
@@ -165,11 +191,12 @@ plt.show()
 site = '09506000'
 start = '1989-01-01'
 end = '2020-10-24'
-url = "https://waterdata.usgs.gov/nwis/dv?cb_00060=on&format=rdb&site_no=" + site + \
-      "&referred_module=sw&period=&begin_date=" + start + "&end_date=" + end
+url = "https://waterdata.usgs.gov/nwis/dv?cb_00060=on&format=rdb&site_no=" + \
+       site + "&referred_module=sw&period=&begin_date=" + start + \
+      "&end_date=" + end
 data = pd.read_table(url, skiprows=30, names=['agency_cd', 'site_no',
-                                               'datetime', 'flow', 'code'],
-                      parse_dates=['datetime'])
+                                              'datetime', 'flow', 'code'],
+                     parse_dates=['datetime'])
 
 data['year'] = pd.DatetimeIndex(data['datetime']).year
 data['month'] = pd.DatetimeIndex(data['datetime']).month
@@ -186,6 +213,7 @@ flow_weekly = data.resample("W", on='datetime').mean()
 print(flow_weekly.head(100))
 
 
+# ////////
 # WEEKLY FORECAST
 # ---------------------------
 
@@ -371,21 +399,4 @@ day_less = 12
 
 weekly_min(month1, day_more, day_less)
 
-# ////Playing with Plotting
 # %%
-precipdata.plot.scatter(x='datetime', y='precip', subplots = True)
-
-# %%
-precipdata.shape
-# %%
-week15_min.shape
-# %%
-month1 = 11
-day1 = 29
-month2 = 12
-day2 = 5
-
-week15_precip = precip_weekly[(data_week_min.index.month == month1)
-                           & (data_week_min.index.day >= day1)
-                           | (data_week_min.index.month == month2)
-                           & (data_week_min.index.day <= day2)]
