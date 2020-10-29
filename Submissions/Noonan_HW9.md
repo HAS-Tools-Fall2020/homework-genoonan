@@ -4,7 +4,9 @@
 ___
 
 ### Grade
+3/3 - Nice work, I'm glad you feel like you learned something about APIs. It's totally fine if you remove your model for now.  You also wont use your model next week.
 
+- Next time add your plot to the markdown :)
 
 ---
 ### Week 9 Questions
