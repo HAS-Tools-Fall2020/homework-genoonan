@@ -1,4 +1,4 @@
-# Gillian Noonan - Homework 9
+# Gillian Noonan - Homework 10
 
 # %%
 # Import necessary packages and functions
@@ -57,129 +57,6 @@ def weekly_min(month1, day_more, day_less):
 print("successful import")
 
 # ////////
-# Precip Data
-# %%
-# Grab daymet precip data
-# (daymet.ornl.gov/single-pixel/)
-# Grab data using base URL and API strings
-base_url1 = "https://daymet.ornl.gov/single-pixel/api/data"
-
-args1 = {
-    'lat': '34.448',
-    'lon': '-111.789',
-    'vars': 'prcp',
-    'start': '1989-01-01',
-    'end': '2020-10-2',
-    }
-apiString1 = urllib.parse.urlencode(args1)
-
-fullUrl1 = base_url1 + '?' + apiString1 + "&format=json"
-print(fullUrl1)
-daymet_precip = req.urlopen(fullUrl1)
-
-# %%
-# Load json file and look at the keys for json download
-daymet_precipDict = json.loads(daymet_precip.read())
-daymet_precipDict.keys()
-
-# %%
-# Look at the type for json download
-type(daymet_precipDict)
-
-# %%
-# Look at the type for key "data"
-type(daymet_precipDict['data'])
-
-# %%
-# Look at the keys for dict "data"
-daymet_precipDict['data'].keys()
-
-# %%
-# Make a dataframe from the data
-
-year = daymet_precipDict['data']['year']
-yearday = daymet_precipDict['data']['yday']
-precip = daymet_precipDict['data']['prcp (mm/day)']
-
-precipdata = pd.DataFrame({'year': year,
-                           'yearday': yearday, "precip": precip})
-precipdata.set_index('year')
-precipdata.head()
-
-# %%
-# Convert to datetime and add column
-date_time = pd.to_datetime(precipdata['year'] * 1000 +
-                           precipdata['yearday'], format='%Y%j')
-precipdata['datetime'] = date_time
-precipdata.set_index('datetime')
-
-# %%
-# Get year month day for precipdata
-precipdata['year'] = pd.DatetimeIndex(precipdata['datetime']).year
-precipdata['month'] = pd.DatetimeIndex(precipdata['datetime']).month
-precipdata['day'] = pd.DatetimeIndex(precipdata['datetime']).day
-precipdata
-
-# %%
-# Aggregate to weekly mean precip (precip_weekly)
-precip_weekly = precipdata.resample("W-SAT", on='datetime').mean()
-precip_weekly[["precip"]]
-
-# %%
-# Looking at just 2019 precip
-precipdata_2019 = precipdata[precipdata.year == 2019]
-precipdata_2019
-
-# %%
-# Plot of all historical precip data
-precipdata.plot.scatter(x="datetime",
-                        y="precip",
-                        title="Historical Precipitation")
-plt.show()
-
-# %%
-# Plot of all 2019 precip data
-precipdata_2019.plot.scatter(x="datetime",
-                             y="precip",
-                             title="2019 Precipitation")
-plt.show()
-
-# %%
-# Look at average historical precip for Week 10
-month1 = 10
-day_more = 25
-day_less = 31
-
-wk10_min = precip_weekly[(precip_weekly.index.month == month1)
-                         & (precip_weekly.index.day >= day_more)
-                         & (precip_weekly.index.day <= day_less)]
-print("Plotted historical weekly average precip for ", month1, "-",
-      day_more, "to", month1, "-", day_less)
-wk10_min.reset_index().plot(x="datetime",
-                            y="precip",
-                            title="Historical Precip Weekly Average",
-                            kind="scatter")
-plt.show()
-
-# %%
-# Look at average historical precip for Week 11
-month1 = 11
-day_more = 1
-day_less = 7
-
-wk11_min = precip_weekly[(precip_weekly.index.month == month1)
-                         & (precip_weekly.index.day >= day_more)
-                         & (precip_weekly.index.day <= day_less)]
-print("Plotted historical weekly average precip for ", month1, "-",
-      day_more, "to", month1, "-", day_less)
-wk11_min.reset_index().plot(x="datetime",
-                            y="precip",
-                            title="Historical Precip Weekly Average",
-                            kind="scatter")
-plt.show()
-
-
-# ////////
 # Streamflow Data
 # Task 1 - Set data input and develop dataframe
 
@@ -190,7 +67,7 @@ plt.show()
 
 site = '09506000'
 start = '1989-01-01'
-end = '2020-10-24'
+end = '2020-10-31'
 url = "https://waterdata.usgs.gov/nwis/dv?cb_00060=on&format=rdb&site_no=" + \
        site + "&referred_module=sw&period=&begin_date=" + start + \
       "&end_date=" + end
@@ -221,9 +98,9 @@ print(flow_weekly.head(100))
 # %%
 # Look at historical minumums for one-week and two-week forecast periods
 # Input dates to grab and print historical min for one-week forecast period
-month = 10
-day_more = 25
-day_less = 31
+month = 11
+day_more = 1
+day_less = 7
 
 hist_min = data[(data["month"] == month)
                 & (data["day"] >= day_more) & (data["day"] <= day_less)]
@@ -232,8 +109,8 @@ print("The historical minimum flow for the week of", month, "-", day_more,
       hist_min["flow"].min(), "cfs")
 
 month = 11
-day_more = 1
-day_less = 7
+day_more = 8
+day_less = 14
 
 hist_min = data[(data["month"] == month)
                 & (data["day"] >= day_more) & (data["day"] <= day_less)]
