@@ -1,3 +1,3 @@
-11/3 9:40 AM - Jill created the team_forecast folder and gave Mekha and Jake write access
-11/3 10:22 PM - I updated my homework to be more readable, if either of you have questions about code let me know you might have to download the package scipy (I put a conda install command for scipy next to the import). Thanks
+11/3 9:40 AM - Jill - created the team_forecast folder and gave Mekha and Jake write access
+11/3 10:22 PM - Jake - I updated my homework to be more readable, if either of you have questions about code let me know you might have to download the package scipy (I put a conda install command for scipy next to the import). Thanks
 11/4 8:00 AM - Mekha - I added my homework script as well. I removed my function for now since I didn't use it last week, but I wrote a function to make 1 and 2 week predictions based on the model.

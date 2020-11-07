@@ -1,0 +1,24 @@
+Name Your Team: Team MJJ
+
+General Plan for Content:
+  Use Jake's 1-2 week forecast
+    -function?
+  Use Jill's historical function
+    -function
+  Add map for Jake's forecast
+    -Mesonet gauge?
+  Other graph(s)?
+    - Flow time series
+    - Jake's model plots?
+  Function script
+    - put Jill's historical function in separate script
+    - other function creation?
+  Markdown
+
+
+Schedule:
+1) Pull Jake + Jill forecasts into one script as a base to start
+2) Organize and add in Mesonet Data? (Mekha)
+3) Add external function script (Jake - she went over this in class today)
+4) Add map and graphs (Jill)
+5) Write markdown (Group - Mekha will do main build so send parts as needed)
