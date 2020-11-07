@@ -5,7 +5,7 @@ import pandas as pd
 from scipy.stats import bernoulli
 
 #%%
-def weekly_min(month1, day_more, day_less):
+def weekly_min(data_week_min, month1, day_more, day_less):
 
     '''Function (weekly_min):
     This function pulls values out of the data_week_min dataframe which

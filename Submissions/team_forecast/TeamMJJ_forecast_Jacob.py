@@ -11,51 +11,6 @@ import urllib
 import min_func as mf
 
 # %%
-# To-do for Jake - move function into a separate script and import to this script
-def weekly_min(month1, day_more, day_less):
-
-    '''Function (weekly_min):
-    This function pulls values out of the data_week_min dataframe which
-    is aggregated by weekly minimum value.  The historical minimums are
-    plotted over the data time period.  It then pulls the
-    minimum historical value from the weekly minimum values
-    for the given month, day time period.
-
-    Parameters
-    ----------
-    month1: int
-            Input variable with one value representing
-            first month of the time window
-    day_more: int
-            Input variable with one value representing
-            first day of the time window
-    day_less: int
-            Input variable with one value representing
-            last day of the time window
-    Returns
-    ------
-    wk_min : dataframe
-            Outputs a dataframe with only data for specified time period
-            and prints the output minimum flow value
-    '''
-    wk_min = data_week_min[(data_week_min.index.month == month1)
-                           & (data_week_min.index.day >= day_more)
-                           & (data_week_min.index.day <= day_less)]
-
-    print("")
-    print("Plotted historical weekly minimum flows for ", month1, "-",
-          day_more, "to", month1, "-", day_less)
-    wk_min.reset_index().plot(x="datetime",
-                              y="flow",
-                              title="Historical Flow Weekly Minimums",
-                              kind="scatter")
-    plt.show()
-
-    print("The overall historical weekly minimum flow for ",
-          month1, "-", day_more, "to", month1, "-", day_less,
-          " is", wk_min.flow.min(), "cfs")
-
-# %%
 # Step 1: Import USGS flow data
 
 # Replace parts of url with variables
@@ -199,17 +154,17 @@ for i in range(8, 13):
 # %%
 weeklytemp= []
 for i in range(8, 13):
+    weeklytemp.append(data['tmax (deg c)'][(data.year > 2010) & 
+                          (data.month == i) & (data.day <= 7)].quantile(0.9))
+    weeklytemp.append(data['tmax (deg c)'][(data.year > 2010) & 
+                          (data.month == i) & (data.day > 7) & (data.day <= 14) & data.day ].quantile(0.9))
     weeklytemp.append(data['tmax (deg c)'][(data['tmax (deg c)'] > 0) &
-                          (data.year > 2010) & (data.month == i) & (data.day <= 7)].quantile(0.9))
+                          (data.year > 2010) & (data.month == i)  & (data.day > 14) & (data.day <= 21)].quantile(0.9))
     weeklytemp.append(data['tmax (deg c)'][(data['tmax (deg c)'] > 0) &
-                          (data.year > 2010) & (data.month == i) & (data.day <= 14)].quantile(0.9))
-    weeklytemp.append(data['tmax (deg c)'][(data['tmax (deg c)'] > 0) &
-                          (data.year > 2010) & (data.month == i) & (data.day <= 21)].quantile(0.9))
-    weeklytemp.append(data['tmax (deg c)'][(data['tmax (deg c)'] > 0) &
-                          (data.year > 2010) & (data.month == i) & (data.day >= 22)].quantile(0.9))
+                          (data.year > 2010) & (data.month == i)& (data.day >= 22)].quantile(0.9))
 weeklytemp = weeklytemp[3:19]
 weeklytemp2 = weeklytemp.copy()
-weeklytemp2[0:0] = [40]
+weeklytemp2[0:0] = [41.2]
 weeklytemp = np.round(weeklytemp, decimals=2)
 weeklytemp2 = np.round(weeklytemp, decimals=2)
 # trimming data
@@ -243,26 +198,26 @@ data_week_min = data_week_min.set_index("datetime")
 month1 = 11
 day_more = 1
 day_less = 7
-mf.weekly_min(month1, day_more, day_less)
+mf.weekly_min(data_week_min, month1, day_more, day_less)
 # mf.weekly_min(site, start, end, month1, day_more, day_less)
 # %%
 # Wk12 historical min
 month1 = 11
 day_more = 8
 day_less = 14
-mf.weekly_min(month1, day_more, day_less)
+mf.weekly_min(data_week_min, month1, day_more, day_less)
 
 # Wk13 historical min
 month1 = 11
 day_more = 15
 day_less = 21
-mf.weekly_min(month1, day_more, day_less)
+mf.weekly_min(data_week_min, month1, day_more, day_less)
 
 # Wk14 historical min
 month1 = 11
 day_more = 22
 day_less = 28
-mf.weekly_min(month1, day_more, day_less)
+mf.weekly_min(data_week_min, month1, day_more, day_less)
 
 # Wk15 historical min (spans two months so does not use function)
 month1 = 11
@@ -292,6 +247,6 @@ print("The overall historical weekly minimum flow for ", month1, "-", day1,
 month1 = 12
 day_more = 6
 day_less = 12
-mf.weekly_min(month1, day_more, day_less)
+mf.weekly_min(data_week_min, month1, day_more, day_less)
 
 # %%
