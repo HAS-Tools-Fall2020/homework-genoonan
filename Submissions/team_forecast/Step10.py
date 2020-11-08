@@ -148,8 +148,7 @@ data_week_min = data_week_min.set_index("datetime")
 # %%
 
 # Plot historical weekly flows for each forecast week
-# Use function 'weekly_min' to grab historical minimum flow
-# Get overall minumum of these flows for all time
+# Use functions 'weekly_min1' or 'weekly_min2' to grab historical minimum flow
 
 # %%
 # Set empty list
