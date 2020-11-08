@@ -11,11 +11,12 @@ import urllib
 import scipy
 
 # %%
-# To-do for Jake - move functions into a separate script and import to this script
+
+
 def weekly_min1(month1, day_more, day_less):
 
     '''Function (weekly_min1):
-    This function is for time windows within the same month.  
+    This function is for time windows within the same month.
     It pulls values out of the data_week_min dataframe which
     is aggregated by weekly minimum value.  The historical minimums are
     plotted over the data time period.  It then pulls the
@@ -56,8 +57,8 @@ def weekly_min1(month1, day_more, day_less):
 
     print("The overall historical weekly minimum flow for ",
           month1, "-", day_more, "to", month1, "-", day_less,
-          " is", wk_min.flow.min(), "cfs") 
-      
+          " is", wk_min.flow.min(), "cfs")
+
     seasonal_list.append(wk_min.flow.min())
 
 
@@ -92,7 +93,6 @@ def weekly_min2(month1, day1, month2, day2):
             Outputs a dataframe with only data for specified time period
             and prints the output minimum flow value'''
 
-
     wk_min = data_week_min[((data_week_min.index.month == month1)
                            & (data_week_min.index.day >= day1)
                            | (data_week_min.index.month == month2)
@@ -109,10 +109,11 @@ def weekly_min2(month1, day1, month2, day2):
     plt.show()
 
     print("The overall historical weekly minimum flow for ", month1, "-", day1,
-            "to", month2, "-", day2, " is",
-            wk_min.flow.min(), "cfs")
+          "to", month2, "-", day2, " is",
+          wk_min.flow.min(), "cfs")
 
-    seasonal_list.append(wk_min.flow.min())  
+    seasonal_list.append(wk_min.flow.min())
+
 
 # %%
 # Step 1: Import USGS flow data
@@ -153,7 +154,7 @@ data_week_min = data_week_min.set_index("datetime")
 # %%
 # Set empty list
 seasonal_list = list()
- 
+
 # Wk1 historical min (8/22 - 8/29)
 month1 = 8
 day_more = 22
@@ -256,4 +257,4 @@ weekly_min1(month1, day_more, day_less)
 # %%
 print("Seasonal forecast list =", seasonal_list)
 
-#%%
+# %%
