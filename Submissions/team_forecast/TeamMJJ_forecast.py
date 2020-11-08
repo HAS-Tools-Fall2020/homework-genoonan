@@ -119,7 +119,8 @@ print('intercept:', np.round(model4.intercept_, 2))
 print('slope:', np.round(model4.coef_, 2))
 
 # %%
-# Step 8: Generate 1 wk and 2 wk preditions based on model above
+# Step 8: Create precip and temperature lists for preditions
+
 # creates list of monthly precipt 5th percentile
 monthly_precip = []
 for i in range(8, 13):
@@ -146,26 +147,33 @@ for i in range(8, 13):
     weeklytemp.append(data['tmax (deg c)'][(data.year > 2010) &
                                            (data.month == i)
                                            & (data.day >= 22)].quantile(0.9))
+
 # trimming to match weeks of the semester
 weeklytemp = weeklytemp[3:19]
+
 # copied then temp 1 week prior to semester start
 # is inserted at begining of list
 weeklytemp2 = weeklytemp.copy()
 weeklytemp2[0:0] = [41.2]
+
 # rounding
 weeklytemp = np.round(weeklytemp, decimals=2)
 weeklytemp2 = np.round(weeklytemp, decimals=2)
 
 # %%
-# variables block
+# Step 9: Plot performace of model so far
+
 # the week number of the semester
 wk_num = 11
+
 # initial precipt value
 precip = [0.762]
+
 # flow for the last 3 weeks prior to semester start
 lastweek = [flow_weekly.flow[-(1 + wk_num)]]
 lastweekx2 = [flow_weekly.flow[-(2 + wk_num)]]
 lastweekx3 = [flow_weekly.flow[-(3 + wk_num)]]
+
 # empty list where predictions are input
 weeklypred = []
 
@@ -174,15 +182,18 @@ mf.pred_sem(wk_num, lastweek, lastweekx2, lastweekx3,
             model4.intercept_, model4.coef_, weeklypred, flow_weekly)
 
 # %%
-# variable block
+# Step 10: Make 1 and 2 week predictions based on model
+
 wk = 2
 # precip (mm) projection next 2 weeks [P1, P2]
 precip = [1.8, 0]
 lastweek = [flow_weekly.flow[-1]]
 lastweekx2 = [flow_weekly.flow[-2]]
 lastweekx3 = [flow_weekly.flow[-3]]
+
 # temp next 2 weeks [T1,T2]
 temp = [19.83, 22.28]
+
 # temp this week
 temp2 = [29.44]
 weeklypred = []
@@ -193,20 +204,19 @@ mf.prediction(wk, lastweek, lastweekx2, lastweekx3,
               precip, temp, temp2, model4.intercept_, model4.coef_, weeklypred)
 
 # %%
-# Step 10: # Generate long term forecast based on historical minimums
+# Step 10: Create dataset to generate long term forecast
+# based on historical minimums
 
 # First aggregate flow values to weekly MINIMUM
 data_week_min = data.resample("W-SAT", on='datetime').min()
 
-# Reset index to be first day of week instead of last
+# Reset index to be first day of week instead of last day
 data_week_min = data_week_min.set_index("datetime")
 
 # %%
-
-# Plot historical weekly flows for each forecast week
+# Step 11: Plot historical weekly flows for each forecast week
 # Use functions 'weekly_min1' or 'weekly_min2' to grab historical minimum flow
 
-# %%
 # Set empty list
 seasonal_list = list()
 
@@ -310,6 +320,7 @@ day_less = 12
 mf.weekly_min1(data_week_min, month1, day_more, day_less, seasonal_list)
 
 # %%
+# Step 12: Pring 16 week forecast values
 print("Seasonal forecast list =", seasonal_list)
 
 # %%
