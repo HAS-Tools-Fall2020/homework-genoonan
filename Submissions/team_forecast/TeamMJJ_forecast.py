@@ -6,8 +6,8 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from sklearn.linear_model import LinearRegression
 import mjj_func as mf
-from mjj_func import *
 import urllib
+
 
 def weekly_min1(month1, day_more, day_less):
 
@@ -109,7 +109,7 @@ def weekly_min2(month1, day1, month2, day2):
           wk_min.flow.min(), "cfs")
 
     seasonal_list.append(wk_min.flow.min())
-    
+
 
 # %%
 # Step 1: Import USGS flow data
@@ -344,7 +344,7 @@ day_more = 20
 day_less = 26
 weekly_min1(month1, day_more, day_less)
 
-# Wk6 historical min (9/27 - 10/3) 
+# Wk6 historical min (9/27 - 10/3)
 month1 = 9
 day1 = 27
 month2 = 10
