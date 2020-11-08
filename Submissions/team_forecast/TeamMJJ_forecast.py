@@ -5,54 +5,8 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 from sklearn.linear_model import LinearRegression
-import datetime
-import urllib.request as req
+import mjj_func as mf
 import urllib
-
-# %%
-# To-do for Jake - move function into a separate script and import to this script
-def weekly_min(month1, day_more, day_less):
-
-    '''Function (weekly_min):
-    This function pulls values out of the data_week_min dataframe which
-    is aggregated by weekly minimum value.  The historical minimums are
-    plotted over the data time period.  It then pulls the
-    minimum historical value from the weekly minimum values
-    for the given month, day time period.
-
-    Parameters
-    ----------
-    month1: int
-            Input variable with one value representing
-            first month of the time window
-    day_more: int
-            Input variable with one value representing
-            first day of the time window
-    day_less: int
-            Input variable with one value representing
-            last day of the time window
-    Returns
-    ------
-    wk_min : dataframe
-            Outputs a dataframe with only data for specified time period
-            and prints the output minimum flow value
-    '''
-    wk_min = data_week_min[(data_week_min.index.month == month1)
-                           & (data_week_min.index.day >= day_more)
-                           & (data_week_min.index.day <= day_less)]
-
-    print("")
-    print("Plotted historical weekly minimum flows for ", month1, "-",
-          day_more, "to", month1, "-", day_less)
-    wk_min.reset_index().plot(x="datetime",
-                              y="flow",
-                              title="Historical Flow Weekly Minimums",
-                              kind="scatter")
-    plt.show()
-
-    print("The overall historical weekly minimum flow for ",
-          month1, "-", day_more, "to", month1, "-", day_less,
-          " is", wk_min.flow.min(), "cfs")
 
 # %%
 # Step 1: Import USGS flow data
@@ -60,7 +14,7 @@ def weekly_min(month1, day_more, day_less):
 # Replace parts of url with variables
 site = '09506000'
 start = '1989-01-01'
-end = '2020-10-31'  # Update end date each week to Saturday
+end = '2020-11-07'  # Update end date each week to Saturday
 
 url = "https://waterdata.usgs.gov/nwis/dv?cb_00060=on&format=rdb&site_no=" + \
     site + "&referred_module=sw&period=&begin_date=" + start + "&end_date=" + \
@@ -119,10 +73,10 @@ data = data.join(tmax_data['tmax (deg c)'])
 # Step 4: Create weekly dataset for model
 
 # Weekly resample
-flow_weekly = data.resample("W", on='datetime').mean()
+flow_weekly = data.resample("W-SAT", on='datetime').mean()
 
 # Get rid of extreme outliers (We can adjust cutoff)
-flow_weekly = flow_weekly[(flow_weekly.flow <= 400)]
+flow_weekly = flow_weekly[(flow_weekly.flow <= 345)]
 
 # %%
 # Step 5: Use iloc to look for dates of training period
@@ -135,6 +89,9 @@ flow_weekly.iloc[1373]
 # This loop names each column flow_tm%i and shifts it by i
 for i in range(1, 4):
     flow_weekly['flow_tm%s' % i] = flow_weekly['flow'].shift(i)
+# done for temp as well
+for i in range(1, 3):
+    flow_weekly['tmax (deg c)%s' % i] = flow_weekly['tmax (deg c)'].shift(i)
 
 # %%
 # Step 7: Create regression model
@@ -143,17 +100,16 @@ for i in range(1, 4):
 # Mekha training: 1282:1373 (2017-2018)
 # Jake training: 974:1205 (2010-2015)
 # Could also remove flow_tm2, flow_tm3
-train = flow_weekly[974:1205][['flow', 'flow_tm1', 'flow_tm2', 'flow_tm3',
-                               'prcp (mm/day)', 'tmax (deg c)']]
-
-test = flow_weekly[1205:][['flow', 'flow_tm1', 'flow_tm2', 'flow_tm3',
-                           'prcp (mm/day)', 'tmax (deg c)']]
+train = flow_weekly[974:1353][['flow', 'flow_tm1', 'flow_tm2', 'flow_tm3',
+                               'prcp (mm/day)', 'tmax (deg c)',
+                               'tmax (deg c)1']]
 
 # Next create regression model based on training period above
 model4 = LinearRegression()
 y = train['flow'].values
+y = train['flow'].values
 x4 = train[['flow_tm1', 'flow_tm2', 'flow_tm3',
-            'prcp (mm/day)', 'tmax (deg c)']]
+            'prcp (mm/day)', 'tmax (deg c)', 'tmax (deg c)1']]
 model4.fit(x4, y)
 r_sq = model4.score(x4, y)
 
@@ -164,47 +120,77 @@ print('slope:', np.round(model4.coef_, 2))
 
 # %%
 # Step 8: Generate 1 wk and 2 wk preditions based on model above
+# creates list of monthly precipt 5th percentile
+monthly_precip = []
+for i in range(8, 13):
+    monthly_precip.append(data['prcp (mm/day)']
+                          [(data['prcp (mm/day)'] > 0) &
+                          (data.year > 2010) &
+                          (data.month == i)].quantile(0.05))
+    monthly_precip[i-8] = np.round(monthly_precip[i-8], decimals=1)
+    # print('month#%s 5 percent precipt is (mm) '%i
+    #       +str(np.round(monthly_precip[i-8], decimals=1)))
 
-# First create prediction functions
-q_pred4_train = model4.predict(train[['flow_tm1', 'flow_tm2', 'flow_tm3',
-                                      'prcp (mm/day)', 'tmax (deg c)']])
-q_pred4_test = model4.predict(test[['flow_tm1', 'flow_tm2', 'flow_tm3',
-                                    'prcp (mm/day)', 'tmax (deg c)']])
+# creates a list of 90th percentile temperatures (because its been hot)
+weeklytemp = []
+for i in range(8, 13):
+    weeklytemp.append(data['tmax (deg c)'][(data.year > 2010) &
+                                           (data.month == i)
+                                           & (data.day <= 7)].quantile(0.9))
+    weeklytemp.append(data['tmax (deg c)'][(data.year > 2010) &
+                                           (data.month == i) & (data.day > 7) &
+                                           (data.day <= 14)].quantile(0.9))
+    weeklytemp.append(data['tmax (deg c)'][(data.year > 2010) &
+                                           (data.month == i) & (data.day > 14)
+                                           & (data.day <= 21)].quantile(0.9))
+    weeklytemp.append(data['tmax (deg c)'][(data.year > 2010) &
+                                           (data.month == i)
+                                           & (data.day >= 22)].quantile(0.9))
+# trimming to match weeks of the semester
+weeklytemp = weeklytemp[3:19]
+# copied then temp 1 week prior to semester start
+# is inserted at begining of list
+weeklytemp2 = weeklytemp.copy()
+weeklytemp2[0:0] = [41.2]
+# rounding
+weeklytemp = np.round(weeklytemp, decimals=2)
+weeklytemp2 = np.round(weeklytemp, decimals=2)
 
-# Next predict 2 weeks into the future using 4 time lags
-# Precip and tmax are manually input based on weather outlook
+# %%
+# variables block
+# the week number of the semester
+wk_num = 11
+# initial precipt value
+precip = [0.762]
+# flow for the last 3 weeks prior to semester start
+lastweek = [flow_weekly.flow[-(1 + wk_num)]]
+lastweekx2 = [flow_weekly.flow[-(2 + wk_num)]]
+lastweekx3 = [flow_weekly.flow[-(3 + wk_num)]]
+# empty list where predictions are input
+weeklypred = []
 
-# NOTE: Jake could you add the tmax data? Also, could you explain
-# where we manually enter precip and temp for projections?
-precip = [0]
-lastweekx3 = [flow_weekly.flow[-3]]
-lastweekx2 = [flow_weekly.flow[-2]]
+mf.pred_sem(wk_num, lastweek, lastweekx2, lastweekx3,
+            precip, weeklytemp, weeklytemp2, monthly_precip,
+            model4.intercept_, model4.coef_, weeklypred, flow_weekly)
+
+# %%
+# variable block
+wk = 2
+# precip (mm) projection next 2 weeks [P1, P2]
+precip = [1.8, 0]
 lastweek = [flow_weekly.flow[-1]]
+lastweekx2 = [flow_weekly.flow[-2]]
+lastweekx3 = [flow_weekly.flow[-3]]
+# temp next 2 weeks [T1,T2]
+temp = [19.83, 22.28]
+# temp this week
+temp2 = [29.44]
+weeklypred = []
 
-# empty list for predictions
-weeklypred_4 = []
-
-for i in range(2):
-    wk1 = lastweek[i]
-    wk2 = lastweekx2[i]
-    wk3 = lastweekx3[i]
-    wk4 = precip[i]
-
-    # appends to last week so that they refer to next time step
-    lastweekx2.append(wk1)
-    lastweekx3.append(wk2)
-
-    # precip.appends(#) the next weeks expected rainfall mm
-    precip.append(0)
-
-    # the prediction for week # i
-    prediction = model4.intercept_ + model4.coef_[0] * wk1 + model4.coef_[1] \
-        * wk2 + model4.coef_[2] * wk3 + model4.coef_[3] * wk4
-    lastweek.append(prediction)
-
-    # creates a list of just my predictions for week 1 then week 2
-    weeklypred_4.append(prediction)
-print(weeklypred_4)
+# This function is similar but does not graph
+# and depends on forecasted inputs of precipitation and temperature
+mf.prediction(wk, lastweek, lastweekx2, lastweekx3,
+              precip, temp, temp2, model4.intercept_, model4.coef_, weeklypred)
 
 # %%
 # Step 10: # Generate long term forecast based on historical minimums
@@ -225,25 +211,25 @@ data_week_min = data_week_min.set_index("datetime")
 month1 = 11
 day_more = 1
 day_less = 7
-weekly_min(month1, day_more, day_less)
+mf.weekly_min(data_week_min, month1, day_more, day_less)
 
 # Wk12 historical min
 month1 = 11
 day_more = 8
 day_less = 14
-weekly_min(month1, day_more, day_less)
+mf.weekly_min(data_week_min, month1, day_more, day_less)
 
 # Wk13 historical min
 month1 = 11
 day_more = 15
 day_less = 21
-weekly_min(month1, day_more, day_less)
+mf.weekly_min(data_week_min, month1, day_more, day_less)
 
 # Wk14 historical min
 month1 = 11
 day_more = 22
 day_less = 28
-weekly_min(month1, day_more, day_less)
+mf.weekly_min(data_week_min, month1, day_more, day_less)
 
 # Wk15 historical min (spans two months so does not use function)
 month1 = 11
@@ -273,6 +259,6 @@ print("The overall historical weekly minimum flow for ", month1, "-", day1,
 month1 = 12
 day_more = 6
 day_less = 12
-weekly_min(month1, day_more, day_less)
+mf.weekly_min(data_week_min, month1, day_more, day_less)
 
 # %%

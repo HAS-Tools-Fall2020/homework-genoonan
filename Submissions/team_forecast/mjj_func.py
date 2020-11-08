@@ -61,9 +61,6 @@ def prediction(wk, lastweek, lastweekx2, lastweekx3, precip, temp, temp2, interc
         lastweekx2.append(wk1)
         lastweekx3.append(wk2)
 
-        # precip.appends(#) the second weeks expected rainfall mm
-        precip.append(0)
-
         # temp of second week     is number appended
         temp2.append(temp[i])
         # the prediction for week # i
@@ -79,8 +76,7 @@ def prediction(wk, lastweek, lastweekx2, lastweekx3, precip, temp, temp2, interc
     print(f'The prediction for week 1 is {str(weeklypred[0].round(2))} cfs '
           f'and week 2 is {str(weeklypred[1].round(2))} cfs')
 # %%
-def pred_sem(wk, lastweek, lastweekx2, lastweekx3, precip, temp, temp2, monthly_precip, intercept_, coef_, weeklypred, wk_num, flow_weekly):
-    
+def pred_sem(wk, lastweek, lastweekx2, lastweekx3, precip, temp, temp2, monthly_precip, intercept_, coef_, weeklypred, flow_weekly):
     for i in range(wk):
         wk1 = lastweek[i]
         wk2 = lastweekx2[i]
@@ -95,15 +91,15 @@ def pred_sem(wk, lastweek, lastweekx2, lastweekx3, precip, temp, temp2, monthly_
 
         # precip.appends(#) the second weeks expected rainfall mm
         if i == 0:
-            precip.append(monthly_precip[0]*(bernoulli.rvs(size=1, p=0.01)))
+            precip.append(monthly_precip[0]*(bernoulli.rvs(size=1, p=0)))
         elif i <= 5:
-            precip.append(monthly_precip[1]*(bernoulli.rvs(size=1, p=0.03)))
+            precip.append(monthly_precip[1]*(bernoulli.rvs(size=1, p=0)))
         elif i <= 9:
-            precip.append(monthly_precip[2]*(bernoulli.rvs(size=1, p=0.05)))
+            precip.append(monthly_precip[2]*(bernoulli.rvs(size=1, p=0)))
         elif i <= 13:
-            precip.append(monthly_precip[3]*(bernoulli.rvs(size=1, p=0.05)))
+            precip.append(monthly_precip[3]*(bernoulli.rvs(size=1, p=0)))
         else:
-            precip.append(monthly_precip[4]*(bernoulli.rvs(size=1, p=0.08)))
+            precip.append(monthly_precip[4]*(bernoulli.rvs(size=1, p=0)))
         
         # the prediction for week # i
         prediction = intercept_ + coef_[0] * wk1 + coef_[1] \
@@ -125,14 +121,14 @@ def pred_sem(wk, lastweek, lastweekx2, lastweekx3, precip, temp, temp2, monthly_
     
     
     plt.scatter(x=weeks, y=weeklypred, marker='o', label='predicted flow')
-    plt.scatter(x=weeks[0:wk_num],
+    plt.scatter(x=weeks,
                 y=flow_weekly.flow[(flow_weekly.year == 2020)
-                & (flow_weekly.month >= 8) & (flow_weekly.day >= 20) |
+                & (flow_weekly.month >= 8) & (flow_weekly.day >= 19) |
                 (flow_weekly.year == 2020) & (flow_weekly.month >= 9)],
                 marker='o', label='observed')
     
     plt.ylabel('Flow (cfs)')
-    plt.ylim([0, 200])
+    plt.ylim([0, 140])
     plt.title('Weekly Discharge Prediction')
     plt.xticks(rotation=45, fontsize=10)
     plt.legend()
