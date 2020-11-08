@@ -7,7 +7,7 @@ from scipy.stats import bernoulli
 # %%
 
 
-def weekly_min1(month1, day_more, day_less):
+def weekly_min1(data_week_min, month1, day_more, day_less, seasonal_list):
 
     '''Function (weekly_min1):
     This function is for time windows within the same month.
@@ -56,7 +56,7 @@ def weekly_min1(month1, day_more, day_less):
     seasonal_list.append(wk_min.flow.min())
 
 
-def weekly_min2(month1, day1, month2, day2):
+def weekly_min2(data_week_min, month1, day1, month2, day2, seasonal_list):
 
     '''Function (weekly_min2):
     This function is for time windows spanning two months.

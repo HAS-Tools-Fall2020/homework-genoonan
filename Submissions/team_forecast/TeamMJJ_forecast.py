@@ -317,100 +317,100 @@ seasonal_list = list()
 month1 = 8
 day_more = 22
 day_less = 29
-weekly_min1(month1, day_more, day_less)
+mf.weekly_min1(data_week_min, month1, day_more, day_less, seasonal_list)
 
 # Wk2 historical min (8/30 - 9/5)
 month1 = 8
 day1 = 30
 month2 = 9
 day2 = 5
-weekly_min2(month1, day1, month2, day2)
+mf.weekly_min2(data_week_min, month1, day1, month2, day2, seasonal_list)
 
 # Wk3 historical min (9/6 - 9/12)
 month1 = 9
 day_more = 6
 day_less = 12
-weekly_min1(month1, day_more, day_less)
+mf.weekly_min1(data_week_min, month1, day_more, day_less, seasonal_list)
 
 # Wk4 historical min (9/13 - 9/19)
 month1 = 9
 day_more = 13
 day_less = 19
-weekly_min1(month1, day_more, day_less)
+mf.weekly_min1(data_week_min, month1, day_more, day_less, seasonal_list)
 
 # Wk5 historical min (9/20 - 9/26)
 month1 = 9
 day_more = 20
 day_less = 26
-weekly_min1(month1, day_more, day_less)
+mf.weekly_min1(data_week_min, month1, day_more, day_less, seasonal_list)
 
 # Wk6 historical min (9/27 - 10/3)
 month1 = 9
 day1 = 27
 month2 = 10
 day2 = 3
-weekly_min2(month1, day1, month2, day2)
+mf.weekly_min2(data_week_min, month1, day1, month2, day2, seasonal_list)
 
 # Wk7 historical min (10/4 - 10/10)
 month1 = 10
 day_more = 4
 day_less = 10
-weekly_min1(month1, day_more, day_less)
+mf.weekly_min1(data_week_min, month1, day_more, day_less, seasonal_list)
 
 # Wk8 historical min (10/11 - 10/17)
 month1 = 10
 day_more = 11
 day_less = 17
-weekly_min1(month1, day_more, day_less)
+mf.weekly_min1(data_week_min, month1, day_more, day_less, seasonal_list)
 
 # Wk9 historical min (10/18 - 10/24)
 month1 = 10
 day_more = 18
 day_less = 24
-weekly_min1(month1, day_more, day_less)
+mf.weekly_min1(data_week_min, month1, day_more, day_less, seasonal_list)
 
 # Wk10 historical min (10/25 - 10/31)
 month1 = 10
 day_more = 25
 day_less = 31
-weekly_min1(month1, day_more, day_less)
+mf.weekly_min1(data_week_min, month1, day_more, day_less, seasonal_list)
 
 # Wk11 historical min (11/1 - 11/7)
 month1 = 11
 day_more = 1
 day_less = 7
-weekly_min1(month1, day_more, day_less)
+mf.weekly_min1(data_week_min, month1, day_more, day_less, seasonal_list)
 
 # Wk12 historical min (11/8 - 11/14)
 month1 = 11
 day_more = 8
 day_less = 14
-weekly_min1(month1, day_more, day_less)
+mf.weekly_min1(data_week_min, month1, day_more, day_less, seasonal_list)
 
 # Wk13 historical min (11/15 - 11/21)
 month1 = 11
 day_more = 15
 day_less = 21
-weekly_min1(month1, day_more, day_less)
+mf.weekly_min1(data_week_min, month1, day_more, day_less, seasonal_list)
 
 # Wk14 historical min (11/22 - 11/28)
 month1 = 11
 day_more = 22
 day_less = 28
-weekly_min1(month1, day_more, day_less)
+mf.weekly_min1(data_week_min, month1, day_more, day_less, seasonal_list)
 
 # Wk15 historical min (11/29 - 12/5)
 month1 = 11
 day1 = 29
 month2 = 12
 day2 = 5
-weekly_min2(month1, day1, month2, day2)
+mf.weekly_min2(data_week_min, month1, day1, month2, day2, seasonal_list)
 
 # Wk16 historical min (12/6 - 12/12)
 month1 = 12
 day_more = 6
 day_less = 12
-weekly_min1(month1, day_more, day_less)
+mf.weekly_min1(data_week_min, month1, day_more, day_less, seasonal_list)
 
 # %%
 print("Seasonal forecast list =", seasonal_list)
