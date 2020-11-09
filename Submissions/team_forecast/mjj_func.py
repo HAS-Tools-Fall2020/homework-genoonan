@@ -85,8 +85,9 @@ def weekly_min2(data_week_min, month1, day1, month2, day2, seasonal_list):
     ------
     wk_min : dataframe
             Outputs a dataframe with only data for specified time period
-            and prints the output minimum flow value'''
-
+            and prints the output minimum flow value
+    '''
+    
     wk_min = data_week_min[((data_week_min.index.month == month1)
                            & (data_week_min.index.day >= day1)
                            | (data_week_min.index.month == month2)

@@ -30,15 +30,17 @@ Jake is near the top of the leader board for the 1 and 2 week forecast, so we de
 ---------
 #### Summary of forecast approach
 
-A 1 week, 2 week, and 16 week long-term forecast was made for the Verde River streamgage near Camp Verde, shown on the map below.
+A 1 week, 2 week, and 16 week long-term forecast was made for the Verde River stream gage near Camp Verde, shown on the map below.
 
-*INSERT MAP HERE*
+![](assets/README-1edfa046.png)  
 
 <ins>1 and 2 Week Forecast Approach</ins>
 
 For the 1 and 2 week summary, we used a linear regression model with the following input variables: average weekly flow from 1 week prior, average weekly flow from 2 weeks prior, average weekly flow from 3 weeks prior, average weekly precipitation, and average weekly max temperature. Observed streamflow from recent weeks is an intuitive predictor of future streamflow. Precipitation has become a more important predictive variable with winter rains beginning. And average maximum temperature is a valuable predictive variable for streamflow during Arizona's extended periods of no precipitation because temperature can act as a proxy for other processes that impact streamflow, such as snowmelt and leaf out in the spring. The input variables are shown in the first graph below, and the performance of the model relative to observed streamflow is shown in the second graph below.
 
-*INSERT TIMESERIES OF PREDICTIVE VARIABLES HERE*
+![](assets/README-51653b5a.png)  
+
+![](assets/README-190d6c48.png)
 
 ![](assets/README-1a135616.png)
 

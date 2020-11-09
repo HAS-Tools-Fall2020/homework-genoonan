@@ -208,7 +208,52 @@ mf.prediction(wk, lastweek, lastweekx2, lastweekx3,
               precip, temp, temp2, model4.intercept_, model4.coef_, weeklypred)
 
 # %%
-# Step 10: Create dataset to generate long term forecast
+# Step 11:  Plotting some time series data
+df_reset = flow_weekly.reset_index()
+df_reset
+
+# %%
+# Time Series of Flow and Precip
+fig, ax1 = plt.subplots()
+color = 'darkturquoise'
+ax1.set_xlabel('Datetime')
+ax1.set_ylabel('Flow (cfs)', color=color)
+ax1.set(title="Historical Flow and Precipitation")
+ax1.plot(df_reset["datetime"], df_reset["flow"], color=color)
+ax1.tick_params(axis='y', labelcolor=color)
+
+ax2 = ax1.twinx()  # second axes that shares the same x-axis
+
+color = 'darkblue'
+ax2.set_ylabel('Precip (mm/day)', color=color)
+ax2.plot(df_reset["datetime"], df_reset["prcp (mm/day)"], color=color)
+ax2.tick_params(axis='y', labelcolor=color)
+
+plt.show()
+fig.savefig("Flow_and_Precip.png")
+
+# %%
+# Time Series of Flow and Max Temp
+fig, ax3 = plt.subplots()
+color = 'darkturquoise'
+ax3.set_xlabel('Datetime')
+ax3.set_ylabel('Flow (cfs)', color=color)
+ax3.set(title="Historical Flow and Max Temp")
+ax3.plot(df_reset["datetime"], df_reset["flow"], color=color)
+ax3.tick_params(axis='y', labelcolor=color)
+
+ax4 = ax3.twinx()
+
+color = 'purple'
+ax4.set_ylabel('Max Temp (deg c)', color=color)
+ax4.plot(df_reset["datetime"], df_reset["tmax (deg c)"], color=color)
+ax4.tick_params(axis='y', labelcolor=color)
+
+plt.show()
+fig.savefig("Flow_and_MaxTemp.png")
+
+# %%
+# Step 12: Create dataset to generate long term forecast
 # based on historical minimums
 
 # First aggregate flow values to weekly MINIMUM
@@ -218,7 +263,7 @@ data_week_min = data.resample("W-SAT", on='datetime').min()
 data_week_min = data_week_min.set_index("datetime")
 
 # %%
-# Step 11: Plot historical weekly flows for each forecast week
+# Step 13: Plot historical weekly flows for each forecast week
 # Use functions 'weekly_min1' or 'weekly_min2' to grab historical minimum flow
 
 # Set empty list
@@ -324,11 +369,11 @@ day_less = 12
 mf.weekly_min1(data_week_min, month1, day_more, day_less, seasonal_list)
 
 # %%
-# Step 12: Print 16 week forecast values
+# Step 14: Print 16 week forecast values
 print("Seasonal forecast list =", seasonal_list)
 
 # %%
-# Step 13: Plot Location Map
+# Step 15: Plot Location Map
 # Dataset 1: USGS stream gauges
 # Download Gauges II USGS stream gauge dataset here:
 # https://water.usgs.gov/GIS/metadata/usgswrd/XML/gagesII_Sept2011.xml#stdorder
