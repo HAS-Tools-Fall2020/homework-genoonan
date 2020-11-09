@@ -1,12 +1,10 @@
-# Modified code from Laura
+# Team MJJ Location Map
 
 # %%
+import os
 import matplotlib.pyplot as plt
-import matplotlib as mpl
-import pandas as pd
 import numpy as np
 import geopandas as gpd
-import fiona
 from shapely.geometry import Point
 import contextily as ctx
 
@@ -16,14 +14,12 @@ import contextily as ctx
 # https://water.usgs.gov/GIS/metadata/usgswrd/XML/gagesII_Sept2011.xml#stdorder
 
 # Read in using geopandas
-file = os.path.join('../data/GIS_files', 'gagesII_9322_sept30_2011.shp')
+file = os.path.join('data', 'gagesII_9322_point_shapefile',
+                    'gagesII_9322_sept30_2011.shp')
 gages = gpd.read_file(file)
 
 # Filter to only AZ gauges
-gages.columns
-gages.STATE.unique()
 gages_AZ = gages[gages['STATE'] == 'AZ']
-gages_AZ.shape
 
 # %%
 # Dataset 2: Watershed boundaries for the Lower Colorado
@@ -32,8 +28,7 @@ gages_AZ.shape
 # https://viewer.nationalmap.gov/basic/?basemap=b1&category=nhd&title=NHD%20View
 
 # Read in using geopandas
-file = os.path.join('../data/GIS_files', 'WBD_15_HU2_GDB.gdb')
-fiona.listlayers(file)
+file = os.path.join('data', 'WBD_15_HU2_Shape', 'Shape', 'WBDHU6.shp')
 HUC6 = gpd.read_file(file, layer="WBDHU6")
 
 # Filter to only Verde River Watershed
@@ -47,17 +42,14 @@ HUC6_Verde = HUC6[HUC6['name'] == 'Verde']
 # https://hub.arcgis.com/datasets/esri::usa-rivers-and-streams?geometry=-115.952%2C31.858%2C-109.014%2C33.476
 
 # Read in using geopandas
-file = os.path.join('../data/GIS_files', 'USA_Rivers_and_Streams.shp')
+file = os.path.join('data', 'USA_Rivers_and_Streams-shp',
+                    'USA_Rivers_and_Streams.shp')
 rivers_USA = gpd.read_file(file)
 
 # Filter to only AZ
-rivers_USA.columns
-rivers_USA.State.unique()
 rivers_AZ = rivers_USA[rivers_USA['State'] == 'AZ']
 
 # Filter to only Verde
-rivers_AZ.columns
-rivers_AZ.Name.unique()
 river_Verde = rivers_AZ[rivers_AZ['Name'] == 'Verde River']
 
 # %%
