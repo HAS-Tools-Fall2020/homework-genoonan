@@ -219,14 +219,16 @@ color = 'darkturquoise'
 ax1.set_xlabel('Datetime')
 ax1.set_ylabel('Flow (cfs)', color=color)
 ax1.set(title="Historical Flow and Precipitation")
-ax1.plot(df_reset["datetime"], df_reset["flow"], color=color)
+ax1.plot(df_reset["datetime"].iloc[974:], df_reset["flow"].iloc[974:],
+         color=color)
 ax1.tick_params(axis='y', labelcolor=color)
 
 ax2 = ax1.twinx()  # second axes that shares the same x-axis
 
 color = 'darkblue'
 ax2.set_ylabel('Precip (mm/day)', color=color)
-ax2.plot(df_reset["datetime"], df_reset["prcp (mm/day)"], color=color)
+ax2.plot(df_reset["datetime"].iloc[974:], df_reset["prcp (mm/day)"].iloc[974:],
+         color=color)
 ax2.tick_params(axis='y', labelcolor=color)
 
 plt.show()
@@ -239,14 +241,16 @@ color = 'darkturquoise'
 ax3.set_xlabel('Datetime')
 ax3.set_ylabel('Flow (cfs)', color=color)
 ax3.set(title="Historical Flow and Max Temp")
-ax3.plot(df_reset["datetime"], df_reset["flow"], color=color)
+ax3.plot(df_reset["datetime"].iloc[974:], df_reset["flow"].iloc[974:],
+         color=color)
 ax3.tick_params(axis='y', labelcolor=color)
 
 ax4 = ax3.twinx()
 
 color = 'purple'
 ax4.set_ylabel('Max Temp (deg c)', color=color)
-ax4.plot(df_reset["datetime"], df_reset["tmax (deg c)"], color=color)
+ax4.plot(df_reset["datetime"].iloc[974:], df_reset["tmax (deg c)"].iloc[974:],
+         color=color)
 ax4.tick_params(axis='y', labelcolor=color)
 
 plt.show()
