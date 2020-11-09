@@ -116,24 +116,40 @@ def weekly_min2(data_week_min, month1, day1, month2, day2, seasonal_list):
 
 def prediction(wk, lastweek, lastweekx2, lastweekx3,
                precip, temp, temp2, intercept_, coef_, weeklypred):
+    '''Function (prediction):
+    This function that makes a prediction that is a specified length.
+    The data utilizes a 6 times dependent linear regressive model.
+    
+    Parameters
+    ----------
+    wk: list
+            How many timesteps you want the model to run for.
+    lastweek: list (three parameters)
+            Flow values for the last three weeks before model starts.
+    precip: list
+            is predicted rainfall that is length wk.
+    temp: list (two parameters)
+            Expected temperatures for the duration of the model
+    intercept_: int
+            The intercept of the model.
+    coef_: list
+            Coeficeints of the model (slope).
+    Returns
+    ------
+    Weeklypred: list
+            Is where you want the prediction data to be stored.
+    '''
     for i in range(wk):
-        wk1 = lastweek[i]
-        wk2 = lastweekx2[i]
-        wk3 = lastweekx3[i]
-        precipt = precip[i]
-        T = temp[i]
-        T2 = temp2[i]
-
         # appends to last week so that they refer to next time step
-        lastweekx2.append(wk1)
-        lastweekx3.append(wk2)
+        lastweekx2.append(lastweek[i])
+        lastweekx3.append(lastweekx2[i])
 
-        # temp of second week     is number appended
+        # temp of second week is number appended
         temp2.append(temp[i])
         # the prediction for week # i
-        prediction = intercept_ + coef_[0] * wk1 + coef_[1] \
-            * wk2 + coef_[2] * wk3 + coef_[3] * precipt \
-            + coef_[4] * T + coef_[5] * T2
+        prediction = intercept_ + coef_[0] * lastweek[i] + coef_[1] \
+            * lastweekx2[i] + coef_[2] * lastweekx3[i] + coef_[3] * precip[i] \
+            + coef_[4] * temp[i] + coef_[5] * temp2[i]
         lastweek.append(prediction)
 
         # creates a list of just my predictions for week 1 then week 2
@@ -148,19 +164,42 @@ def prediction(wk, lastweek, lastweekx2, lastweekx3,
 def pred_sem(wk, lastweek, lastweekx2, lastweekx3, precip, temp,
              temp2, monthly_precip, intercept_, coef_, weeklypred,
              flow_weekly):
+    '''Function (prediction):
+    This function that makes a prediction that is a specified length.
+    The data utilizes a 6 times dependent linear regressive model.
+    Has a probability distribution portion but is 0 by default
+    
+    Parameters
+    ----------
+    wk: list
+            How many timesteps you want the model to run for.
+    lastweek: list (three parameters)
+            Flow values for the last three weeks before model starts.
+    monthly_precip: list
+            Is predicted rainfall that is length wk.
+    temp: list (two parameters)
+            Expected temperatures for the duration of the model  
+    intercept_: int
+            The intercept of the model.
+    coef_: list
+            Coeficeints of the model (slope).
+    flow_weekly: dataframe
+            A dataframe where flow observed flow comes from 
+            by default starts at the week of 8/21/20
+    Returns
+    ------
+    Weeklypred: list
+            Is where you want the prediction data to be stored. Along,
+            with a graph of observed flow and predicted flow
+    '''
     for i in range(wk):
-        wk1 = lastweek[i]
-        wk2 = lastweekx2[i]
-        wk3 = lastweekx3[i]
-        precipt = precip[i]
-        T = temp[i]
-        T2 = temp2[i]
-
         # appends to last week so that they refer to next time step
-        lastweekx2.append(wk1)
-        lastweekx3.append(wk2)
+        lastweekx2.append(lastweek[i])
+        lastweekx3.append(lastweekx2[i])
 
         # precip.appends(#) the second weeks expected rainfall mm
+        # Can incorporate probability at each week if desired by making 
+        # p from 0 to 1 hidden because not used for this week
         if i == 0:
             precip.append(monthly_precip[0]*(bernoulli.rvs(size=1, p=0)))
         elif i <= 5:
@@ -173,9 +212,9 @@ def pred_sem(wk, lastweek, lastweekx2, lastweekx3, precip, temp,
             precip.append(monthly_precip[4]*(bernoulli.rvs(size=1, p=0)))
 
         # the prediction for week # i
-        prediction = intercept_ + coef_[0] * wk1 + coef_[1] \
-            * wk2 + coef_[2] * wk3 + coef_[3] * precipt \
-            + coef_[4] * T + coef_[5] * T2
+        prediction = intercept_ + coef_[0] * lastweek[i] + coef_[1] \
+            * lastweekx2[i] + coef_[2] * lastweekx3[i] + coef_[3] * precip[i] \
+            + coef_[4] * temp[i] + coef_[5] * temp2[i]
         lastweek.append(prediction)
 
         # creates a list of just my predictions for week 1 then week 2
