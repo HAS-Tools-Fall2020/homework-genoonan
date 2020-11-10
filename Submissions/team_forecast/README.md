@@ -2,6 +2,9 @@
 *Mekha, Jill, Jake*
 
 *11/09/2020*
+__
+## Grade
+3/3 - Wow really nice graphs! Good work doing this collaboratively.
 
 ---------
 #### Forecast Values
