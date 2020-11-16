@@ -155,42 +155,6 @@ fig.savefig("Flow_and_Precip.png")
 
 # Jill's Code forecast
 # %%
-# Look at historical minumums for one-week and two-week forecast periods
-# Input dates to grab and print historical min for one-week forecast period
-month = 11
-day_more = 8
-day_less = 14
-
-hist_min = data[(data["month"] == month)
-                & (data["day"] >= day_more) & (data["day"] <= day_less)]
-print("The historical minimum flow for the week of", month, "-", day_more,
-      "to", month, "-", day_less, " is",
-      hist_min["flow"].min(), "cfs")
-
-month = 11
-day_more = 15
-day_less = 21
-
-hist_min = data[(data["month"] == month)
-                & (data["day"] >= day_more) & (data["day"] <= day_less)]
-print("The historical minimum flow for the week of", month, "-", day_more,
-      "to", month, "-", day_less, " is",
-      hist_min["flow"].min(), "cfs")
-
-# %%
-# # Look at tables of statistics for last 7 and 14 days
-# Save tables of statistics as PNG files for markdown
-data_weekly = data.tail(7)
-data_two_wks = data.tail(14)
-
-df1 = data_weekly[["flow"]].describe()
-print("Last week's flow statistics")
-print(df1)
-df2 = data_two_wks[["flow"]].describe()
-print("Last two week's flow statistics")
-print(df2)
-
-# %%
 # Get one-week and two-week mean values
 mean_1wk = round(np.mean(data_weekly)["flow"], 2)
 print("The mean flow for the last 7 days is:", mean_1wk)
