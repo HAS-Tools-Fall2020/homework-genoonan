@@ -4,7 +4,7 @@
 ___
 
 ### Grade
-
+3/3 - Nice job! The indexing and time stuff can be really tricky. Hopefully we can get these issues addressed in class this week. Don't worry you are not alone in struggling this week. This was a hard one. 
 
 ---
 ### Week 12 Questions
