@@ -1,0 +1,20 @@
+....Import Successful
+....Dataframe is Ready
+The mean flow for the last 7 days is: 158.71
+The mean flow for the last 14 days is: 154.0
+
+
+One-week Beginning and End Flow Values
+158.0
+162.0
+
+
+Two-week Beginning and End Flow Values
+145.0
+162.0
+
+
+Overall flow fluctuation in past 7 days was 2.53 percent.
+Overall flow fluctuation in past 14 days was 11.72 percent.
+The one-week flow prediction is 162.7 cfs
+The two-week flow prediction is 165.0 cfs

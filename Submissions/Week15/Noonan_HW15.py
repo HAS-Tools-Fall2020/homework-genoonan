@@ -62,15 +62,6 @@ perc_chng_total_2wk = ((last_val2 - first_val2)/first_val2)*100
 print("Overall flow fluctuation in past 14 days was",
       round(perc_chng_total_2wk, 2), "percent.")
 
-# Look at visual trend over last two weeks
-fig, ax = plt.subplots()
-ax.plot(data_two_wks.datetime, data_two_wks.flow)
-ax.set(title="Two-week flow trend")
-ax.set(xlabel='Date', ylabel='Daily Flow (cfs)')
-ax.tick_params(axis='x', labelcolor="black", labelsize=8, rotation=45)
-print("\n")
-print("Figure 4. Two-week flow trend")
-plt.show()
 
 # Trend-based prediction for one-week and two-week forecast values 
 # Based on percent change total from above code block.  If trend is upward,forecast a percentage higher, 
@@ -82,5 +73,15 @@ print("The one-week flow prediction is", round(Jill_1wk, 1), "cfs")
 
 Jill_2wk = mean_2wk + (mean_2wk * (((perc_chng_total_2wk+perc_chng_total_1wk)/2)/100))
 print("The two-week flow prediction is", round(Jill_2wk, 1), "cfs")
+
+# Look at visual trend over last two weeks
+fig, ax = plt.subplots()
+ax.plot(data_two_wks.datetime, data_two_wks.flow)
+ax.set(title="Two-week flow trend")
+ax.set(xlabel='Date', ylabel='Daily Flow (cfs)')
+ax.tick_params(axis='x', labelcolor="black", labelsize=8, rotation=45)
+print("\n")
+print("Figure 4. Two-week flow trend")
+plt.savefig("two-week-trend.png")
 
 # %%    

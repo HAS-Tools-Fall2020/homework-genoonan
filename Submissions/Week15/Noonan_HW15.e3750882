@@ -1,0 +1,14 @@
+Traceback (most recent call last):
+  File "Noonan_HW15.py", line 78, in <module>
+    fig, ax = plt.subplots()
+  File "/cm/shared/uaapps/python/3.6.5/lib/python3.6/site-packages/matplotlib/pyplot.py", line 1198, in subplots
+    fig = figure(**fig_kw)
+  File "/cm/shared/uaapps/python/3.6.5/lib/python3.6/site-packages/matplotlib/pyplot.py", line 548, in figure
+    **kwargs)
+  File "/cm/shared/uaapps/python/3.6.5/lib/python3.6/site-packages/matplotlib/backend_bases.py", line 161, in new_figure_manager
+    return cls.new_figure_manager_given_figure(num, fig)
+  File "/cm/shared/uaapps/python/3.6.5/lib/python3.6/site-packages/matplotlib/backends/_backend_tk.py", line 1044, in new_figure_manager_given_figure
+    window = Tk.Tk(className="matplotlib")
+  File "/cm/shared/uaapps/python/3.6.5/lib/python3.6/tkinter/__init__.py", line 2020, in __init__
+    self.tk = _tkinter.create(screenName, baseName, className, interactive, wantobjects, useTk, sync, use)
+_tkinter.TclError: no display name and no $DISPLAY environment variable
