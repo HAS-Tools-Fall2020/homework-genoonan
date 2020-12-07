@@ -6,12 +6,11 @@ ___
 ### Grade
 
 
-
 ---
 ### Week 15 Questions
 ---
 *1) What resources did you request on Ocelote? How long did you wait in the queue for your job to run and how long did it take to run?*
-  - I used the suggested resource request of 1 node, 1 core.  It ran nearly instantly (gave me a job number and spit out two output files "e" and "o" plus job number).  However, the "e" output contains an error that shows the run was not successful, and the "o" file is blank.
+  - I used the suggested resource request of 1 node, 1 core.  It ran nearly instantly (gave me a job number and spit out two output files "e" and "o" plus job number).  However, the "e" output contains an error that shows the run was not successful, and the "o" file is blank.  I tried a bunch of troubleshooting with no success.  After office hours, I was able to fix and run the .pbs and get an output.  Thanks
 
 *2) What was the most confusing part to you about setting up and running your job on Ocelote?*
  - Everything was going smoothly until i tried to run and get an output.  It would be nice to have more detailed error message to help debug the issue.   Also, when i typed "vi" in terminal as per your notes to "look at the outputs of your job" I wasn't sure what to enter after that to look at them.  That part was not clear so I just exited via the :q-Enter command.
